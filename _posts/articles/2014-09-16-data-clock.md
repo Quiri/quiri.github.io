@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Rock around the data clock
+excerpt:
 date: 2014-10-21 20:25:13.000000000 +02:00
 categories: articles
 tags: [R]
@@ -18,7 +19,7 @@ df <- expand.grid(hour = c(12,1:11), period = c("am", "pm"))
 df$value <- dnorm(c(seq(0.6,1.1,0.1),seq(-1.1,0.6,0.1)) ,0,0.5)
 {% endhighlight %}
 
-So with [ggplot](http://ggplot2.org/) we can start with some bar plots:
+So with [ggplot](http://ggplot2.org/)Â we can start with some bar plots:
 
 {% highlight R %}
 library(ggplot2)
@@ -27,7 +28,7 @@ hour_plot <- ggplot(df, aes(x = factor(hour), y = value, fill = period)) +
 hour_plot
 {% endhighlight %}
 
-[![bars_only](assets/bars_only-1024x365.png)](http://pomogajko.com/blog/wp-content/uploads/2014/09/bars_only.png)
+![bars_only]({{ site.url }}/images/bars_only-1024x365.png)
 
 Neat, but doesn't look like a clock to me, so let's change the coordinates to polar:
 
@@ -36,7 +37,7 @@ hour_plot <- hour_plot + coord_polar(theta = "x")
 hour_plot
 {% endhighlight %}
 
-[![hour_ugly](assets/hour_ugly-1024x826.png)](http://pomogajko.com/blog/wp-content/uploads/2014/09/hour_ugly.png)
+![hour_ugly]({{ site.url }}/images/hour_ugly-1024x826.png)
 
 Well, better, looks like a clock, but won't win any beauty contests. Let's skew it and remove some junk.
 
@@ -49,7 +50,7 @@ hour_plot <- hour_plot + coord_polar(theta = "x", start = 0.26)+
 hour_plot
 {% endhighlight %}
 
-[![hour_better](assets/hour_better-e1410863358284-1024x881.png)](http://pomogajko.com/blog/wp-content/uploads/2014/09/hour_better-e1410863358284.png)
+![hour_better]({{ site.url }}/images/hour_better-e1410863358284-1024x881.png)
 
 Nice! That's the data clock. From a design and readability point of view the transition from a.m to p.m (left bar to right bar) and p.m. to a.m. (right bar to left bar) at 11-12 o'clock could be misleading or counterintuitive. My suggestion here is to guide the viewer with color transitions, instead of binary a.m./ p.m. (red / blue) colors. One way to do this is by adding a new variable to the data, to which we then can bind our color to.
 
@@ -70,10 +71,14 @@ hour_plot <- ggplot(df, aes(x = factor(hour), y = value, fill =fill, group = per
 hour_plot
 {% endhighlight %}
 
-[![hour_even_better](assets/hour_even_better-e1410865953526-1024x885.png)](http://pomogajko.com/blog/wp-content/uploads/2014/09/hour_even_better-e1410865953526.png)Delete the useless legend et voilà!
+![hour_even_better]({{ site.url }}/images/hour_even_better-e1410865953526-1024x885.png)
+
+Delete the useless legend et voilÃ !
 
 {% highlight R %}
 hour_plot <- hour_plot + guides(fill=FALSE)
 {% endhighlight %}
 
-[![hour_best](assets/hour_best-e1410865915965-1024x912.png)](http://pomogajko.com/blog/wp-content/uploads/2014/09/hour_best-e1410865915965.png)One has to mention, that p.m. is on the right side and a.m. is on the left. Sure, it's still not perfect, because the transition between a.m./p.m. is still rough, so I would be delighted to read your suggestions for improvement in the comments ;) 
+![hour_best]({{ site.url }}/images/hour_best-e1410865915965-1024x912.png)
+
+One has to mention, that p.m. is on the right side and a.m. is on the left. Sure, it's still not perfect, because the transition between a.m./p.m. is still rough, so I would be delighted to read your suggestions for improvement in the comments ;) 
