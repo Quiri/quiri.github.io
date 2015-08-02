@@ -293,3 +293,20 @@ span + .entry-title {
 		vertical-align: middle;
 	}
 }
+
+/*
+--------------------------------------------------------------------
+## Author page (TO DO, make a partial)
+-------------------------------------------------------------------
+*/
+
+.authorinfo {
+  display: table;	
+  span{
+    vertical-align: middle;
+    display: table-cell;
+    padding: (0px + $doc-line-height) / 2;
+    padding: (0rem + ($doc-line-height / $doc-font-size)) / 2;
+  }
+}
+
