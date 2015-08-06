@@ -33,6 +33,11 @@ $(function() {
 // Add lightbox class to all image links
 $("a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.gif']").addClass("image-popup");
 
+// DropCap.js
+	var dropcaps = document.querySelectorAll(".dropcap");
+	window.Dropcap.layout(dropcaps, 2);
+
+
 // Magnific-Popup options
 $(document).ready(function() {
   $('.image-popup').magnificPopup({
