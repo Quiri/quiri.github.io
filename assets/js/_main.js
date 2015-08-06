@@ -35,7 +35,7 @@ $("a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.gi
 
 // DropCap.js
 	var dropcaps = document.querySelectorAll(".dropcap");
-	window.Dropcap.layout(dropcaps, 2);
+	window.Dropcap.layout(dropcaps, 3);
 
 
 // Magnific-Popup options
