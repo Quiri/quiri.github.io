@@ -11,29 +11,38 @@ author: "kirill"
 modified: 2015-08-07
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+As a experienced dplyr user since almost day 0, I thought I knew almost every aspect of it. But when my new colleague, who is learning dplyr from scratch, asked me to explain the peeling of group layers with summarize, I was like, what?
+Turns out this *is* actually a thing. Let me show a the example from the [dplyr introduction](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html):
 
 
 {% highlight r %}
-summary(cars)
+library(dplyr)
+library(nycflights13)
+daily <- flights %>% 
+  group_by(year, month, day) %>%
+  summarise(flights = n())
+daily
 {% endhighlight %}
 
 
 
 {% highlight text %}
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
+## Source: local data frame [365 x 4]
+## Groups: year, month
+## 
+##    year month day flights
+## 1  2013     1   1     842
+## 2  2013     1   2     943
+## 3  2013     1   3     914
+## 4  2013     1   4     915
+## 5  2013     1   5     720
+## 6  2013     1   6     832
+## 7  2013     1   7     933
+## 8  2013     1   8     899
+## 9  2013     1   9     902
+## 10 2013     1  10     932
+## ..  ...   ... ...     ...
 {% endhighlight %}
 
-You can also embed plots, for example:
+Pay atttention, that the newly generated data.frame is only grouped by `year` and `month` only, not by `date` anymore, which is effect of the forementioned peeling. The idea is, that if you want to
 
-![plot of chunk unnamed-chunk-2]({{ site.url }}/images/2015-08-07-groupby_summarize/unnamed-chunk-2-1.svg) 
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
