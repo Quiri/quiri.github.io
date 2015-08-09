@@ -9,7 +9,10 @@ image:
   creditlink: http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/
 ---
 
+## THIS PAGE IS STILL UNDER DEVELOPMENT AND IN EXPERIMENTAL MODE. PLEASE DON'T JUDGE (YET).
+
+
 This blog is all about Data Science. We will write tipps and tricks from our personal experience.
 
 
-Made with passion and Jekyll. Theme inspired by So Simple.
+

@@ -11,18 +11,5 @@ author: "kirill"
 modified: 2015-08-07
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r}
-summary(cars)
-```
-
-You can also embed plots, for example:
-
-```{r, echo=FALSE}
-plot(cars)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+As a experienced dplyr user since almost day 0, I thought I knew almost every aspect of it. But when my new colleague, who is learning dplyr from scratch, asked me to explain the peeling of group layers with summarize, I was like, what?
+Turns out this *is* actually a thing. Let me show a the example from the docs:
