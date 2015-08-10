@@ -11,8 +11,8 @@ author: "kirill"
 modified: 2015-08-07
 ---
 
-<span class = "dropcap">A</span>s an experienced dplyr user since almost day one, I thought I knew almost every aspect of it. But when my new colleague, who is learning dplyr from scratch, asked me to explain the peeling of group layers with `summarise`, I was like, what?
-Turns out this *is* actually a thing. Let me show a the example from the [dplyr introduction](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html):
+<span class = "dropcap">A</span>s an experienced dplyr user since almost day one, I thought I knew every aspect of it. But when my new colleague, who is learning dplyr from scratch, asked me to explain the peeling of group layers with `summarise`, I was like, what?
+Turns out this actually *is* a thing. Let me show the example from the [dplyr introduction](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html):
 
 ```{r eval=TRUE}
 library(dplyr)
@@ -23,9 +23,9 @@ daily <- flights %>%
 daily
 ```
 
-Pay atttention, that the newly generated data.frame is only grouped by `year` and `month` only, not by `date` anymore, which is effect of the forementioned peeling. The idea is, that if you want to aggregate your data further, in most cases you would aggregate it with one layer off, because you already exploited the initial grouping already.
+Notice that the newly generated data.frame is grouped by `year` and `month` only, not by `date` anymore, which is the effect of the forementioned peeling. The idea is that if you want to aggregate your data further, in most cases you would aggregate it with one layer off since you already exploited the initial grouping.
 
-So if want to calculate the amount of flights per month and year and then per year, you don't have to regroup anymore.
+So if you want to calculate the amount of flights per month and year and then per year, you don't have to regroup anymore.
 
 ```{r eval=TRUE}
 monthly <- daily %>% 
@@ -40,7 +40,7 @@ yearly <- monthly %>%
 yearly
 ```
 
-How does dplyr determine which layer to peel off? Well it seems to depend of the order of the groups:
+How does dplyr determine which layer to peel off? Well it seems to depend on the order of the groups:
 
 ```{r eval=TRUE}
 daily <- flights %>% 
@@ -49,9 +49,9 @@ daily <- flights %>%
 daily
 ```
 
-This produces the same results like in the first daily computation, but obviously now year got peeled off.
+This produces the same results as in the first daily computation, but obviously now year got peeled off.
 
-Although it might help you write code faster (by saving you a group_by-clause) it deteriorates readability, in my humble opinion. Or would you directly know what to expect from this code, which is just the summary of the ones above:
+Although it might help you write code faster (by saving you a group_by-clause), in my humble opinion it deteriorates readability. Or would you instantly know what to expect from this code, which is basically the summary of the ones above:
 
 ```{r eval = TRUE}
 result <- flights %>% 
@@ -62,12 +62,12 @@ result <- flights %>%
 result
 ```
 
-To understand the result, you have to count the peeled off layers, and see which ones are affected. You can't simple rely on the `group_by` anymore, while reading the code. Now imagine you are reviewing code or looking at old code of yours. Everytime you see a wild `summarise` without a directly preceeding `group_by` you will have to go through the whole code looking for the previous `group_by` and then search all `summarise` statement and count the peeling. ![Peeling onions]({{ site.url }}/images/spencer-peeling-onions.jpg)
+To understand the result, you have to count the peeled off layers, and see which ones are affected. You can't simply rely on the `group_by` anymore while reading the code. Now imagine you are reviewing code or looking at old code of yours. Everytime you see a wild `summarise` without a directly preceeding `group_by` you will have to go through the whole code looking for the previous `group_by` and then search all `summarise` statement and count the peeling. ![Peeling onions]({{ site.url }}/images/spencer-peeling-onions.jpg)
 {: .pull-right}
 *Peeling of onions isn't fun either. Lilly Martin Spencer, Peeling Onions, ca. 1852.*
 
-While it might be a convenient behaviour for quick and dirty analysis, I would not use it in production code and my best practice is to always explicitly use a `group_by` statement right before a `summarise`. Keeping in mind that the behaviour of `group_by` already changed from adding groups to overiding groups completely in dplyr 2.0, safest thing you can do is even to add an `ungroup` statement right before grouping.
+While it might be a convenient way for quick and dirty analysis, I would not use it in production code and my best practice is to always explicitly use a `group_by` statement right before a `summarise`. Keeping in mind that the behaviour of `group_by` already changed from adding groups to overriding groups completely in dplyr 2.0, safest thing you can do is even to add an `ungroup` statement right before grouping.
 
-Another problem is that some user might not be aware of this behaviour (I wasn't, therefore the blog post) and might be surprised by the somewhat counterintuitive results.
+Another problem is that some users might not be aware of this behaviour (I wasn't, therefore the blog post) and might be surprised by the somewhat counterintuitive results.
 
-So be aware with this behaviour and you can keep on enjoying dplyr!
+So be aware with this behaviour and you can keep enjoying dplyr!
