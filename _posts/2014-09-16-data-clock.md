@@ -12,7 +12,7 @@ share: true
 author: kirill
 ---
 
-I had to visualize an hourly distribution of some KPI (assume logins / registrations / purchases per hour), so the idea was, why not build a clock? It's a nice and intuitive way to present this data. The problem is, that the clock has only 12 hours which are used twice a day, so I will have to assign two data points to every "hour" (am/pm). So assume our data is something like this:
+<span class = "dropcap">I</span> had to visualize an hourly distribution of some KPI (assume logins / registrations / purchases per hour), so the idea was, why not build a clock? It's a nice and intuitive way to present this data. The problem is, that the clock has only 12 hours which are used twice a day, so I will have to assign two data points to every "hour" (am/pm). So assume our data is something like this:
 
 {% highlight R %}
 df <- expand.grid(hour = c(12,1:11), period = c("am", "pm"))

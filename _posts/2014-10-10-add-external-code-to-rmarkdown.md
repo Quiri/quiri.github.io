@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Add external code to Rmarkdown
-excerpt: Test test
+excerpt: Cross-reference your R code.
 date: 2014-10-21 20:25:13.000000000 +02:00
 categories: articles
 tags: [R]
