@@ -1,0 +1,5 @@
+<span></span>
+<span class = "center blogroll"> Blogroll </span>
+{% for blog in site.data.blogs %}
+<span> <a href = "{{ blog.url }}">{{ blog.name }}</a></span>
+{% endfor %}
