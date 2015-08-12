@@ -108,6 +108,7 @@ span + .entry-title {
 			border-bottom: 1px solid lighten($black,80);
 			border-bottom: 1px solid rgba($black,.10);
 		}
+		
 	}
 }
 
@@ -323,5 +324,16 @@ span + .entry-title {
 
 .blogroll {
 	font-weight: 600;
-	font-style: italic
+	font-style: italic;
+	display: none !important;
+	@include media($large) {
+		display: block !important;
+	};
+}
+
+.blogroll-entry {
+	display: none !important;
+	@include media($large) {
+		display: block !important;
+	};
 }
