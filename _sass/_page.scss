@@ -164,6 +164,9 @@ span + .entry-title {
 	@include media($large) {
 		@include span-columns(9.5);
 	}
+	p {
+		text-align:justify
+	}
 	/* nice link underlines */
   p > a,
 	li > a {
@@ -171,7 +174,7 @@ span + .entry-title {
 		&:hover {
 			border-bottom-style: solid;
 		}
-	}
+	} 
 }
 
 /*

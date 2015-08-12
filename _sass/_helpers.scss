@@ -46,16 +46,22 @@
 
 /* float left */
 
-.pull-left {
-  float: left;
+.image-left {
+/*  float: left; */
   padding-right: $gutter;
+  em {
+	  display : inherit
+  }
 }
 
 /* float right */
 
-.pull-right {
-  float: right;
+.image-right {
+/*  float: right; */
   padding-left: $gutter;
+  em {
+	  display : inherit
+  }
 }
 
 /*

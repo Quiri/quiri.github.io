@@ -66,7 +66,7 @@ To understand the result, you have to count the peeled off layers, and see which
 
 ![Peeling onions]({{ site.url }}/images/spencer-peeling-onions.jpg)
 *Peeling onions isn't fun either. Lilly Martin Spencer, Peeling Onions, ca. 1852.*
-{: .pull-right}
+{: .image-right}
 
 While it might be a convenient way for quick and dirty analysis, I would not use it in production code and my best practice is to always explicitly use a `group_by` statement right before a `summarise`. Keeping in mind that the behaviour of `group_by` already changed from adding groups to overriding groups completely in dplyr 2.0, safest thing you can do is even to add an `ungroup` statement right before grouping.
 
