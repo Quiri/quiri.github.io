@@ -4,7 +4,7 @@ title: "Peeling of group layers."
 excerpt: "Pay attention with group_by and summarise"
 categories: articles
 tags: [R, dplyr, data manipulation]
-comments: false
+comments: true 
 share: true
 published: true
 author: "kirill"
