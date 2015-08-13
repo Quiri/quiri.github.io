@@ -7,7 +7,7 @@ categories: articles
 tags: [R]
 type: post
 published: true
-comment: true
+comments: true
 share: true
 author: kirill
 ---

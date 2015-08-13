@@ -5,6 +5,7 @@ locale: en_US
 description: Data is our religion. 
 logo: 
 search: true
+disqus-shortname: pomogajko
 #url: http://quiri.github.io
 
 # Jekyll configuration
