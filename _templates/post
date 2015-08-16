@@ -2,9 +2,15 @@
 layout: {{ layout }}
 title: {{ title }}
 modified:
-categories: {{ dir }}
+categories: article
 excerpt:
 tags: []
+published: false
+comment: true
+author:
 image:
   feature:
+  credit:
+  creditlink:
+share: true
 ---
