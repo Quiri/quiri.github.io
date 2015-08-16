@@ -99,14 +99,14 @@ def requires(self):
 {% endhighlight %}
 luigi checks dependencies and outputs of each step so it checks existense of;
 
-- `/user/storage/externaljob/timestamp=%s' % self.timestamp.strftime('%Y%m%d')`
-- `awesome_is_here_%s.txt' % self.timestamp.strftime('%Y%m%d')`
-- `/user/hive/warehouse/awesome/timestamp=%s' % self.timestamp.strftime('%Y%m%d')`
+- `/user/storage/externaljob/timestamp=%s' % self.timestamp.strftime('%Y%m%d')
+- `awesome_is_here_%s.txt' % self.timestamp.strftime('%Y%m%d')
+- `/user/hive/warehouse/awesome/timestamp=%s' % self.timestamp.strftime('%Y%m%d')
 
 The most important thing here is using python's subprocess module with `shell=True`, you can run your R file
 {% highlight python %}
 def run(self):
-        subprocess.call('Rscript YOUR_R_FILE,shell=True)
+        subprocess.call('Rscript YOUR_R_FILE',shell=True)
 {% endhighlight %}
 
 The timestamp argument you gave at the very beginning is stored as global variable `timestamp` (well, this is not necessarily the coolest option)
@@ -119,7 +119,7 @@ timestamp = HiveTask1.timestamp
 {% endhighlight %}
 Moreover, you can pass `timestamp` to R file by
 {% highlight python %}
-Rscript awesome.R %s' % self.timestamp.strftime('%Y%m%d')
+Rscript awesome.R %s % self.timestamp.strftime('%Y%m%d')
 {% endhighlight %}
 
 
@@ -132,7 +132,7 @@ timestamp <- format(as.Date(X,"%Y-%m-%d"),"%Y%m%d")
 
 DO AWESOME THINGS
 
-write.csv(YOURAWESOME,file=infuse('awesome_is_here_{{timestamp}}.txt',timestamp=timestamp),row.names=F)
+write.csv(YOURAWESOME,file=paste0('awesome_is_here_',timestamp,'.txt'),row.names=F)
 {% endhighlight %}
 
 In R side, you can receive `timestamp` argument you passed from python by
