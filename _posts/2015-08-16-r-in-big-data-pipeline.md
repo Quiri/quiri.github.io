@@ -10,20 +10,20 @@ published: true
 author: yuki
 ---
 
-<span class = "dropcap">R</span> is still my fabovite tool for research. There are still quite a few things that only R can do or quicker/easier with R.
+<span class = "dropcap">R</span> is my fabovite tool for research. There are still quite a few things that only R can do or quicker/easier with R.
 
 But unfortunately a lot of people think R becomes less powerful at production stage where you really need to make sure all the functionalities run as you planned against incoming big data.
 
 Personally, what makes R special in the data related field is its ability to become friend with many other tools. R can easily ask `JavaScript` for data visualization, `node.js` for interactive web app and data pipeline tools/databases for production ready big data system.
 
-In this post I address how to use R stably in big data pipeline without losing its loveliness.
+In this post I address how to use R stably combined with other tools in big data pipeline without losing its awesomeness.
 
 ## tl;dr
-You'll find how to include R into `luigi`, light weight python data workflow management library. You can still use R's awesomeness in complex big data pipeline while handling big data tasks by more appropriate tools.
+You'll find how to include R into `luigi`, light weight python data workflow management library. You can still use R's awesomeness in complex big data pipeline while handling big data tasks by other appropriate tools.
 
 I'm not covering luigi basics in this post. Please refer to [luigi website](http://luigi.readthedocs.org/en/latest/index.html) if necesary.
 
-## What's pipeline?
+## Simple pipeline
 Here is a very simple example;
 
 * HiveTask1: Wait for external hive data task (table named "externaljob" partitioned by timestamp)
@@ -32,7 +32,7 @@ Here is a very simple example;
 
 * HiveTask2: Upload it back to Hive as soon as the above job finishes (table names "awesome" partitioned by timestamp)
 
-and you wanna do this job everyday in a easily debuggable fashion with fancy workflow UI.
+and you wanna do this job everyday in an easily debuggable fashion with fancy workflow UI.
 
 That's super easy, just run 
   
@@ -41,14 +41,14 @@ python awesome.py --HiveTask1-timestamp 2015-08-20
 ```
 
 
-This run `pytohn` file called `awesome.py`. `--HiveTask1-timestamp 2015-08-20` sets 2015-08-20 as timestamp argument in HiveTask1 class.
+This runs `python` file called `awesome.py`. `--HiveTask1-timestamp 2015-08-20` sets 2015-08-20 as timestamp argument in HiveTask1 class.
 
 
 
 
-Yay, all the above tasks are now connected!  
+Yay, all the above tasks are now connected in the luigi task UI!  
 Notice our workflow goes from bottom to top.  
-You can see there is an error in the very first HiveTask2 but this is just by desighn.
+You can see there is an error in the very first HiveTask2 but this is just by design.
 ![luigi-workflow]({{ site.url }}/images/luigi-workflow.png)
 
 
@@ -169,4 +169,4 @@ This one for example runs the whole thing at 1 everyday.
 ## Conclusion
 
 In this post I showed simple example of how to quickly convert your research R project into solid deployable product.
-This is not limited to simple R-hive integration but you can let R, spark, databases, stan/bugs, H2O, vowpal wabbit and millions of other data tools dance together as you plan. and you'll see how important R still is in this play.
+This is not limited to simple R-hive integration but you can let R, spark, databases, stan/bugs, H2O, vowpal wabbit and millions of other data tools dance together as you wish. and you'll recognize R still plays a central role in the play.
