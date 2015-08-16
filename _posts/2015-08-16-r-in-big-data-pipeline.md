@@ -73,7 +73,7 @@ class RTask(luigi.Task):
     def requires(self):
         return HiveTask1()
     def run(self):
-        subprocess.call('Rscript rawesome.R %s' % self.timestamp.strftime('%Y%m%d'),shell=True)
+        subprocess.call('Rscript awesome.R %s' % self.timestamp.strftime('%Y%m%d'),shell=True)
     def output(self):
         return LocalTarget('awesome_is_here_%s.txt' % self.timestamp.strftime('%Y%m%d'))
 
@@ -119,7 +119,7 @@ timestamp = HiveTask1.timestamp
 {% endhighlight %}
 Moreover, you can pass `timestamp` to R file by
 {% highlight python %}
-Rscript awesome.R %s % self.timestamp.strftime('%Y%m%d')
+'Rscript awesome.R %s' % self.timestamp.strftime('%Y%m%d')
 {% endhighlight %}
 
 
