@@ -137,7 +137,7 @@ timestamp <- format(as.Date(X,"%Y-%m-%d"),"%Y%m%d")
 
 DO AWESOME THINGS
 
-write.csv(YOURAWESOME,file=infuse('awesome_is_here_{{timestamp}}.txt',timestamp=timestamp),row.names=F)
+write.csv(YOURAWESOME,file=sprintf('awesome_is_here_%s.txt',timestamp),row.names=F)
 {% endhighlight %}
 
 In R side, you can receive `timestamp` argument you passed from python by
@@ -157,7 +157,7 @@ fileConn<-file("FINALHQL.hql")
 writeLines(Q, fileConn)
 close(fileConn)
 system('hive -f FINALHQL.hql')
-this file updates 
+#this file updates 
 {% endhighlight %}
 
 
@@ -166,6 +166,7 @@ One last thing you might like to do is to set a cronjob.
 ```
 0 1 * * * python awesome.py --HiveTask1-timestamp `date --date='+1 days' +\%Y-\%m-\%d`
 ```
+
 This one for example runs the whole thing at 1 a.m everyday.
 
 ## Conclusion
