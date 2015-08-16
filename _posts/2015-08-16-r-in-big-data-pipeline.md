@@ -49,11 +49,12 @@ This runs `python` file called `awesome.py`. `--HiveTask1-timestamp 2015-08-20` 
 Yay, all the above tasks are now connected in the luigi task UI!  
 Notice our workflow goes from bottom to top.  
 You can see there is an error in the very first HiveTask2 but this is just by design.
+
 ![luigi-workflow]({{ site.url }}/images/luigi-workflow.png)
 
 
 ## Codes
-Let's take a look at `awesome.py`.  
+Let's take a look at `awesome.py`:  
 
 {% highlight python %}
 import luigi
@@ -107,7 +108,7 @@ luigi checks dependencies and outputs of each step so it checks existense of;
 - `awesome_is_here_%s.txt' % self.timestamp.strftime('%Y%m%d')`
 - `/user/hive/warehouse/awesome/timestamp=%s' % self.timestamp.strftime('%Y%m%d')`
 
-The most important thing here is using python's subprocess module with `shell=True`, you can run your R file
+The most important thing here is using python's subprocess module with `shell=True`, so you can run your R file
 {% highlight python %}
 def run(self):
         subprocess.call('Rscript YOUR_R_FILE,shell=True)
@@ -161,12 +162,13 @@ this file updates
 
 
 One last thing you might like to do is to set a cronjob.
+
 ```
-00 01 * * * python awesome.py --HiveTask1-timestamp `date --date='+1 days' +\%Y-\%m-\%d`
+0 1 * * * python awesome.py --HiveTask1-timestamp `date --date='+1 days' +\%Y-\%m-\%d`
 ```
-This one for example runs the whole thing at 1 everyday.
+This one for example runs the whole thing at 1 a.m everyday.
 
 ## Conclusion
 
-In this post I showed simple example of how to quickly convert your research R project into solid deployable product.
+In this post I've shown simple example of how to quickly convert your research R project into solid deployable product.
 This is not limited to simple R-hive integration but you can let R, spark, databases, stan/bugs, H2O, vowpal wabbit and millions of other data tools dance together as you wish. and you'll recognize R still plays a central role in the play.
