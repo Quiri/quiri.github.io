@@ -14,7 +14,7 @@ author: yuki
 
 But unfortunately a lot of people think R becomes less powerful at production stage where you really need to make sure all the functionalities run as you planned against incoming big data.
 
-Personally, what makes R special in the data related field is its ability to become friend with many other tools. R can easily ask `JavaScript` for data visualization, `node.js` for interactive web app and data pipeline tools/databases for production ready big data system.
+Personally, what makes R special in the data field is its ability to become friend with many other tools. R can easily ask `JavaScript` for data visualization, `node.js` for interactive web app and data pipeline tools/databases for production ready big data system.
 
 In this post I address how to use R stably combined with other tools in big data pipeline without losing its awesomeness.
 
@@ -60,12 +60,8 @@ import luigi
 from luigi.file import LocalTarget
 from luigi.hive import HiveTableTarget
 from luigi.contrib.hdfs import HdfsTarget
-import os
 import subprocess
-import datetime as dt
 import sys
-from datetime import datetime, timedelta
-
 
 class HiveTask1(luigi.ExternalTask):
     timestamp = luigi.DateParameter(is_global=True)
