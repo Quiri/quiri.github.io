@@ -100,9 +100,9 @@ def requires(self):
 {% endhighlight %}
 luigi checks dependencies and outputs of each step so it checks existense of;
 
-- `/user/storage/externaljob/timestamp=%s' % self.timestamp.strftime('%Y%m%d')
-- `awesome_is_here_%s.txt' % self.timestamp.strftime('%Y%m%d')
-- `/user/hive/warehouse/awesome/timestamp=%s' % self.timestamp.strftime('%Y%m%d')
+- `'/user/storage/externaljob/timestamp=%s' % self.timestamp.strftime('%Y%m%d')`
+- `'awesome_is_here_%s.txt' % self.timestamp.strftime('%Y%m%d')`
+- `'/user/hive/warehouse/awesome/timestamp=%s' % self.timestamp.strftime('%Y%m%d')`
 
 The most important thing here is using python's subprocess module with `shell=True`, so you can run your R file
 {% highlight python %}
