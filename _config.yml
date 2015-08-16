@@ -45,10 +45,10 @@ owner:
   #tumblr: #username
   #pinterest: #username
   #weibo: #userid
-  #google:
+  google:
   #  plus: #username
-  #  analytics:
-  #  verify:
+  #  analytics
+    verify: MmRGCeK6NxYVbxHuKT7FP5H40y1L-DnHXuVMKbRfBwQ
   #  ad-client:
   #  ad-slot:
   #bing-verify:
