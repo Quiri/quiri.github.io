@@ -47,7 +47,7 @@ owner:
   #weibo: #userid
   google:
   #  plus: #username
-  #  analytics
+    analytics: UA-66397956-1
     verify: MmRGCeK6NxYVbxHuKT7FP5H40y1L-DnHXuVMKbRfBwQ
   #  ad-client:
   #  ad-slot:
