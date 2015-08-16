@@ -10,11 +10,11 @@ POST_DIR=$(CACHE_DIR)/_posts
 IMAGES=images
 IMAGE_DIR=$(CACHE_DIR)/$(IMAGES)
 NAME=new
+DATE=$(shell date +%Y-%m-%d)
+NEWPOST=$(DATE)-$(NAME)
 
 RMD_FILES=$(notdir $(wildcard $(R_DIR)/*.Rmd))
-MD_FILES:=$(RMD_FILES:.Rmd=.md)
-NEWEST=$(basename $(shell ls -t $(POST_DIR)/ | head -n 1))
-
+MD_FILES=$(RMD_FILES:.Rmd=.md)
 
 publish: $(MD_FILES:%=$(POST_DIR)/%) 
 
@@ -22,10 +22,7 @@ draft: $(MD_FILES:%=$(R_DIR)/%)
 
 new: 
 	octopress new post '$(NAME)'
-	mv '$(POST_DIR)'/'$(NEWEST)'.markdown '$(R_DIR)'/'$(NEWEST)'.Rmd
-
-test:
-	@echo $(NEWEST)
+	mv '$(POST_DIR)'/'$(NEWPOST)'.markdown '$(R_DIR)'/'$(NEWPOST)'.Rmd
 
 $(DOWNLOADS_DIR)/%.foo.gz:
 	@mkdir -p '$(@D)'
