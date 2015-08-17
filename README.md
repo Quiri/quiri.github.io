@@ -7,6 +7,6 @@ This is the source code of the [Opiate for the masses Blog](http://www.opiatefor
   4. Install Bundler `gem install bundler` and run `bundle install` to install all dependencies (Jekyll, Jekyll-Sitemap, Octopress, etc).
   5. Run it locally with `jekyll serve`. If it throws errors you may have to run Jekyll with `bundled exec jekyll serve` instead.
 
-Now that your local version of it is up and running, try to add some .md posts to *_posts/article*.
+Now that your local version of it is up and running, try to add some .md posts to *_posts*. Read the CONTRIBUTE.md to see how to write articles.
 
 
