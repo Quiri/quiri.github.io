@@ -166,3 +166,6 @@ This one for example runs the whole thing at 1 everyday.
 
 In this post I showed simple example of how to quickly convert your research R project into solid deployable product.
 This is not limited to simple R-hive integration but you can let R, spark, databases, stan/bugs, H2O, vowpal wabbit and millions of other data tools dance together as you wish. and you'll recognize R still plays a central role in the play.
+
+## Codes
+The whole codes are available from [here](https://github.com/yukiegosapporo/2015-08-16-r-in-big-data-pipeline) 
