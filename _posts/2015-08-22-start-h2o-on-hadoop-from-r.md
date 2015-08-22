@@ -12,27 +12,30 @@ author: yuki
 
 ## Intro
 I like to take a bath. Fill a bath and warm up in there is a perfect refreshment after a hard working day. I like it so much so I decided to do it even at work. I'm running `H2O` in the huge bathub called `hadoop`. I'm lazy to do any hadoop side setting (and don't wanna bother my super data engineer team), but I wanted to have a button that starts and finishes everything from R. Now I have it and name it `ofuro`, bathing in Japanese, which starts H2O on hadoop from R and finishes it after your awesome works.
+
 ![ofuro]({{ site.url }}/images/ofuro.jpg)
 
 
 ## H2O
-`H2O` is a big data machine learning platform. `H2O` can easily cook big data that R or python can't and provides many machine learning solutions like neural network, GBM, random forest. There are standalone version and on-hadoop one if you like to crunch hundreds of gigabytes. And this is easily controlable from R or python thtough API.
+`H2O` is a big data machine learning platform. `H2O` can easily cook big data that R or Python can't and provides many machine learning solutions like neural network, GBM and random forest. There is a standalone version and a on-hadoop one if you like to crunch hundreds of gigabytes. And this is easily controlable from R or Python through an API.
 
-Download is super easy. Get a right one for your system from [here](http://h2o.ai/download/)  and follow the instruction.
+The download is super easy. Get the right one for your system from [here](http://h2o.ai/download/) and follow the instructions.
 
 ## Starting H2O
 Starting H2O standalone version is just one line.
 ```h2o.init()```
 
-But starting it on hadoop is a bit tricky and currently (YYYY-MM-DD) there doesn't seem to be a one click solution.
+But starting it on hadoop is a bit tricky and currently there doesn't seem to be a one click solution.
 In my case, presumably the same for many data scientists, hadoop is a shared asset at work and it's not cool to keep it running and occupy nodes.
 But no worries, the snippet below is everything you need!
 
 ## Ofuro
 {% highlight r %}
 system("
-cd YOUR_H2O_DIRECTORY/h2o-3.1.0.3098-cdh5.4.2 # Your H2O version should be different
-hadoop jar h2odriver.jar -output h2o -timeout 6000 > YOUR_WORKING_DIR/h2o_msg.txt",wait=F) 
+  cd YOUR_H2O_DIRECTORY/h2o-3.1.0.3098-cdh5.4.2 # Your H2O version should be different
+  hadoop jar h2odriver.jar -output h2o -timeout 6000 > YOUR_WORKING_DIR/h2o_msg.txt
+",wait=F) 
+
 #timeout: timeout duration. See here for more H2O parameters
 
 h2o_ip <- NA; h2o_port <- NA
@@ -60,7 +63,8 @@ This is basically three-parter codes.
 {% highlight r %}
 system("
 cd YOUR_H2O_DIRECTORY/h2o-3.1.0.3098-cdh5.4.2 # Your H2O version should be different
-hadoop jar h2odriver.jar -output h2o -timeout 6000 > YOUR_WORKING_DIR/h2o_msg.txt",wait=F) 
+hadoop jar h2odriver.jar -output h2o -timeout 6000 > YOUR_WORKING_DIR/h2o_msg.txt
+",wait=F) 
 #timeout: timeout duration. See here for more H2O parameters
 {% endhighlight %}
 
@@ -135,7 +139,7 @@ system('rm YOUR_WORKING_DIR/h2o_msg.txt')
 
 Chunk 3 does let the water out of your bath and clean it. 
 `yarn application -kill ` may vary depending on your system.
-This also delete h2o hdfs derectory and h2o_msg.txt for the next time.
+This also deletes h2o hdfs derectory and h2o_msg.txt for the next time.
 
 ### Codes
-The whole codes are available from [here](https://github.com/yukiegosapporo/2015-08-22-start-h2o-on-hadoop-from-r) 
+The full codes are available from [here](https://github.com/yukiegosapporo/2015-08-22-start-h2o-on-hadoop-from-r) 
