@@ -2,11 +2,11 @@
 layout: {{ layout }}
 title: {{ title }}
 modified:
-categories: article
+categories: articles
 excerpt:
 tags: []
 published: false
-comment: true
+comments: true
 author:
 image:
   feature:
