@@ -6,7 +6,7 @@ search_omit: true
 ---
 {% for a in site.data.authors %}
 {% assign author = a[1] %}
-<div class="authorinfo">
+<div class="authorinfo" id = "{{ a[0] }}">
 {% if author.avatar contains 'http' %}
           <img src="{{ author.avatar }}" class="bio-photo" class="author-photo" alt="{{ author.name }} bio photo">
 {% else %}
