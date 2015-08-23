@@ -15,7 +15,7 @@ I made a simple functionality to start H2O on hadoop from R.
 You can easily start H2O on hadoop, run your analytics and close all the processes without occuppying Hadoop nodes and memory all the time.
 
 <hr>
-I like to take a bath. Fill a bath and warm up in there is a perfect refreshment after a hard working day. I like it so much so I decided to do it even at work. I'm running `H2O` in the huge bathtub called `hadoop`. I'm lazy to do any hadoop side setting (and don't wanna bother my super data engineer team), but I wanted to have a button that starts and finishes everything from R. Now I have it and name it `ofuro`, bathing in Japanese, which starts H2O on hadoop from R and finishes it after your awesome works.
+<span class = "dropcap">I </span> like to take a bath. Fill a bath and warm up in there is a perfect refreshment after a hard working day. I like it so much so I decided to do it even at work. I'm running `H2O` in the huge bathtub called `hadoop`. I'm lazy to do any hadoop side setting (and don't wanna bother my super data engineer team), but I wanted to have a button that starts and finishes everything from R. Now I have it and name it `ofuro`, bathing in Japanese, which starts H2O on hadoop from R and finishes it after your awesome works.
 
 ![ofuro]({{ site.url }}/images/ofuro.jpg)
 
