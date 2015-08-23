@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Ofuro, start H2O on Hadoop from R
-excerpt:
+excerpt: and stop and clean it up afterward
 categories: articles
 tags: [R, H2O, machine learning, big data]
 comments: true
@@ -10,14 +10,18 @@ published: true
 author: yuki
 ---
 
-## Intro
-I like to take a bath. Fill a bath and warm up in there is a perfect refreshment after a hard working day. I like it so much so I decided to do it even at work. I'm running `H2O` in the huge bathub called `hadoop`. I'm lazy to do any hadoop side setting (and don't wanna bother my super data engineer team), but I wanted to have a button that starts and finishes everything from R. Now I have it and name it `ofuro`, bathing in Japanese, which starts H2O on hadoop from R and finishes it after your awesome works.
+## tl;dr
+I made a simple functionality to start H2O on hadoop from R.
+You can easily start H2O on hadoop, run your analytics and close all the processes without occuppying Hadoop nodes and memory all the time.
+
+<hr>
+I like to take a bath. Fill a bath and warm up in there is a perfect refreshment after a hard working day. I like it so much so I decided to do it even at work. I'm running `H2O` in the huge bathtub called `hadoop`. I'm lazy to do any hadoop side setting (and don't wanna bother my super data engineer team), but I wanted to have a button that starts and finishes everything from R. Now I have it and name it `ofuro`, bathing in Japanese, which starts H2O on hadoop from R and finishes it after your awesome works.
 
 ![ofuro]({{ site.url }}/images/ofuro.jpg)
 
 
 ## H2O
-`H2O` is a big data machine learning platform. `H2O` can easily cook big data that R or Python can't and provides many machine learning solutions like neural network, GBM and random forest. There is a standalone version and a on-hadoop one if you like to crunch hundreds of gigabytes. And this is easily controlable from R or Python through an API.
+`H2O` is a big data machine learning platform. `H2O` can easily cook big data that R or Python can't and provides many machine learning solutions like neural network, GBM and random forest. There is a standalone version and an on-hadoop one if you like to crunch hundreds of gigabytes. And this is easily controlable from R or Python through an API.
 
 The download is super easy. Get the right one for your system from [here](http://h2o.ai/download/) and follow the instructions.
 
