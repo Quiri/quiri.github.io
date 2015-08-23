@@ -6,7 +6,7 @@ categories: articles
 excerpt: Especially for data science
 tags: [R, Python, Data Science]
 published: true
-comment: true
+comments: true
 author: kirill
 image:
   feature:
