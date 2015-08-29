@@ -10,3 +10,8 @@ This is the source code of the [Opiate for the masses Blog](http://www.opiatefor
 Now that your local version of it is up and running, try to add some .md posts to *_posts*. Read the CONTRIBUTE.md to see how to write articles.
 
 
+
+Notes to self:
+bundle update; gem install github-pages;
+
+
