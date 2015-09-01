@@ -5,7 +5,7 @@ modified:
 categories: articles
 excerpt:
 tags: []
-published: false
+published: true
 comments: true
 author: jess
 image:
@@ -24,7 +24,7 @@ So, I´ve been working on seting up my server to run an R code that would basica
 Elasticsearch per default comes with no security settings at all, as the whole config file consists of a bunch of comments. **If you just plan to play around with Elasticsearch, it´s perfectly fine to keep the default settings, but if you´re serious about it, you definitely need to secure it properly.** 
  
 Because if you don´t and if you happen to have a server based in Germany, sooner rather than later you´ll get an abuse notification from the german Federal Office for Information Security. Take that.
-While in the US the first though when confronted to new apps, webapps and other services seems to be "Awesome! It´ll be so much fun to try it out!", in Germany things are different. The first though on a German´s mind is rather "Holy crap, how about data privacy? Where are their servers hosted? Do they moneterize my data?". Anyways, it took their bot a couple of hours to figure out that my Elasticsearch had a potential security flaw. I´ve spent the next couple of hours panicking about my server´s security and trying to find out if someone had hacked it by studying an insane amount of logs. It was so much fun! Not. 
+While in the US the first though when confronted with new apps, webapps and other services seems to be "Awesome! It´ll be so much fun to try it out!", in Germany things are different. The first though on a German´s mind is rather "Holy crap, how about data privacy? Where are their servers hosted? Do they moneterize my data?". Anyways, it took their bot a couple of hours to figure out that my Elasticsearch had a potential security flaw. I´ve spent the next couple of hours panicking about my server´s security and trying to find out if someone had hacked it by studying an insane amount of logs. It was so much fun! Not. 
 
 ![No fun at all](http://i.imgur.com/Dz3nk.jpg)
 {: .center}
@@ -46,7 +46,7 @@ output {
 }
 {% endhighlight %}
  
-Note: bindhost is what does the magic here. 
+Note: bind_host is what does the magic here. 
 
 Also, if you´re using Elasticsearch as a service, don´t forget to restart it with:
 
@@ -54,7 +54,7 @@ Also, if you´re using Elasticsearch as a service, don´t forget to restart it w
 sudo service elasticsearch restart
 {% endhighlight %}
 
-to make sure it´s using the new setting. 
+to make sure it´s grabing the new setting. 
  
  
 I´m wondering: Is there another country providing such a security service to their citizens?
