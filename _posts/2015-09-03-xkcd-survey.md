@@ -78,9 +78,7 @@ data.raw %>%
   ggtitle("Google Search Trends of the xkcd survey English Terms")
 {% endhighlight %}
 
-![xkcd trending words, messy](../images/safferli/xkcd-messy-trends.png)
-
-> ({{ site.url }}/images/safferli/xkcd-messy-trends.png)
+![xkcd trending words, messy]({{ site.url }}/images/safferli/xkcd-messy-trends.png)
 
 Oof. A mess of lines. Let's get that sorted out by plotting each search term individually: 
 
@@ -99,7 +97,7 @@ data.raw %>%
   ggtitle("Google Search Trends of the xkcd survey English Terms")
 {% endhighlight %}
 
-![xkcd trending words, faceted](../images/safferli/xkcd-facet-trends.png)
+![xkcd trending words, faceted]({{ site.url }}/images/safferli/xkcd-facet-trends.png)
 
 Much nicer. We can clearly see that some words (e.g. unitory, regolith, fination) show a clear uplift after the survey was posted (around noon UTC, September 2nd). Other words have a smaller impact (e.g. apricity, revergent, cadine), while others again have a minuscle to zero impact (e.g. rife, soliquy having a tiny impact, and hubris having zero). 
 
