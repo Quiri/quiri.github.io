@@ -1,23 +1,25 @@
 ---
 layout: post
-title: xkcd survey and the power to shape the internet
-excerpt: 
+title: "xkcd survey and the power to shape the internet"
+excerpt: "Randall breaks the internet (a little)" 
 categories: articles
 tags: [R, xkcd, Google Trends]
 comments: true
 share: true
-published: false
+published: true
 author: safferli
+modified: 2015-09-03
 ---
 
 
 ## The xkcd survey
 
-If you've never heard of xkcd, it's ["[a] webcomic of romance, sarcasm, math, and language"](http://www.xkcd.com/) created by [Randall Munroe](https://en.wikipedia.org/wiki/Randall_Munroe). Also, if you've never heard of xkcd, be prepared for losing at least a day's worth of productivity reading the comics and the excellent [what if](http://what-if.xkcd.com/) column where Randall answers hypothetical questions with physics. 
+<span class = "dropcap">I</span>f you've never heard of xkcd, it's ["[a] webcomic of romance, sarcasm, math, and language"](http://www.xkcd.com/) created by [Randall Munroe](https://en.wikipedia.org/wiki/Randall_Munroe). Also, if you've never heard of xkcd, be prepared for losing at least a day's worth of productivity reading the comics and the excellent [what if](http://what-if.xkcd.com/) column where Randall answers hypothetical questions with physics. 
 
 Randall used his webcomic to post a survey, asking the internet to fill out a number of questions designed to generate "an interesting and unusual data set for people to play with":
 
 ![xkcd survey webcomic call to action](http://imgs.xkcd.com/comics/xkcd_survey.png)
+{: .center}
 
 If you're reading this, please head over to [the survey](http://xkcd.com/1572/) and fill it out! Also, please send it to your friends and acquaintances who usually do not read these kind of blogs and webcomics -- the more diverse the audience, the more interesting the resulting data set! 
 
