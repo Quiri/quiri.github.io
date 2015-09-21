@@ -12,6 +12,19 @@ author: yuki
 
 <span class = "dropcap">I</span> know there are many R users who like to test out SparkR without all the configuration hassle. Just these six lines and you can start SparkR from both RStudio and command line. 
 
+![luigi-workflow]({{ site.url }}/images/spark-logo.png)
+
+
+# One line for Spark and SparkR for each
+
+> Apache Spark is a fast and general-purpose cluster computing system
+
+and
+
+
+> SparkR is an R package that provides a light-weight frontend to use Apache Spark from R
+
+# Six lines to start SparkR
 The first three lines should be called in your command line.
 {% highlight sh %}
 brew update # If you don't have homebrew, get it from here (http://brew.sh/)
