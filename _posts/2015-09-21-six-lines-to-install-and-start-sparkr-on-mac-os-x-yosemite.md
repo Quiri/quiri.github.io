@@ -32,9 +32,9 @@ brew install apache-spark # Install Spark
 
 You can already start SparkR shell by typing this in your command line;
 
-```
+{% highlight sh %}
 SparkR
-```
+{% endhighlight %}
 
 If you like to call it from RStudio, execute the rest in R
 {% highlight r %}
