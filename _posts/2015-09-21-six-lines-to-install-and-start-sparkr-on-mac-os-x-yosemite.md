@@ -1,12 +1,12 @@
 ---
 layout: post
 title: Six lines to install and start SparkR on Mac OS X Yosemite
-excerpt: for both  and command line
+excerpt: for both RStudio and command line
 categories: articles
 tags: [R, Spark, SparkR, Hadoop, big data]
 comments: true
 share: true
-published: true
+published: false
 author: yuki
 ---
 
