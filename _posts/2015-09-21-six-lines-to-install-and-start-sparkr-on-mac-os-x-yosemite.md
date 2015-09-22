@@ -15,11 +15,9 @@ author: yuki
 ![luigi-workflow]({{ site.url }}/images/spark-logo.png)
 
 
-# One line for Spark and SparkR for each
+# One line for Spark and SparkR
 
 > Apache Spark is a fast and general-purpose cluster computing system
-
-and
 
 
 > SparkR is an R package that provides a light-weight frontend to use Apache Spark from R
