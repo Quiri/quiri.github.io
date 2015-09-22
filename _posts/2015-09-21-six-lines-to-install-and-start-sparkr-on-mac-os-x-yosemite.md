@@ -6,14 +6,14 @@ categories: articles
 tags: [R, Spark, SparkR, Hadoop, big data]
 comments: true
 share: true
-published: false
+published: true 
 author: yuki
 ---
 
 <span class = "dropcap">I</span> know there are many R users who like to test out SparkR without all the configuration hassle. Just these six lines and you can start SparkR from both RStudio and command line. 
 
 ![luigi-workflow]({{ site.url }}/images/spark-logo.png)
-
+{: .center}
 
 # One line for Spark and SparkR
 
@@ -32,9 +32,9 @@ brew install apache-spark # Install Spark
 
 You can already start SparkR shell by typing this in your command line;
 
-```
+{% highlight sh %}
 SparkR
-```
+{% endhighlight %}
 
 If you like to call it from RStudio, execute the rest in R
 {% highlight r %}
