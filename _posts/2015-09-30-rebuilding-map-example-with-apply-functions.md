@@ -16,7 +16,7 @@ share: true
 date: 2015-09-30T11:10:16+02:00
 ---
 
-<span class = "dropcap">Y</span>esterday Hadley's functional programming package [purrr](https://github.com/hadley/purrr) was published to [CRAN](https://cran.r-project.org/web/packages/purrr/index.html). It is designed to bring convenient functional programming paradigma and add another data manipulation framework for R.
+<span class = "dropcap">Y</span>esterday Hadley's functional programming package [purrr](https://github.com/hadley/purrr) was published to [CRAN](https://cran.r-project.org/web/packages/purrr/index.html). It is designed to bring convenient functional programming paradigma and add another data manipulation framework to R.
 
 >"Where dplyr focusses on data frames, purrr focusses on vectors" -- Hadley Wickham in a [blogpost](http://blog.rstudio.org/2015/09/29/purrr-0-1-0/)
 
@@ -58,7 +58,7 @@ mtcars %>%
 ## 0.5086326 0.4645102 0.4229655
 {% endhighlight %}
 
-As you can see, map works with 3 different inputs - function names (exactly like apply), anonymous function as formula and character to select elements. Apply on the other hand only accepts functions, but with a little piping voodoo we can also shortcut the anonymous functions like this:
+As you can see, map works with 3 different inputs - function names (exactly like apply), anonymous functions as formulae or character to select elements. Apply on the other hand only accepts functions, but with a little piping voodoo we can also shortcut the anonymous functions like this:
 
 
 {% highlight r %}
@@ -97,4 +97,4 @@ microbenchmark(map, apply)
 ##  apply  14 27 281.34     27 27 24556   100
 {% endhighlight %}
 
-Now don't get me wrong, I don't want to say, that purrr is worthless or reduntant. I just picked the most basic function of the package and explained what it does by rewriting with apply functions. The map function and their derivatives are convenient alternatives to apply in my eyes without computational overhead. Furthermore the package offers very interesting functions like `zip_n` and `lift`. If you love apply and word with lists, you definitely should check out `purrr`.
+Now don't get me wrong, I don't want to say, that purrr is worthless or reduntant. I just picked the most basic function of the package and explained what it does by rewriting with apply functions. The map function and their derivatives are convenient alternatives to apply in my eyes without computational overhead. Furthermore the package offers very interesting functions like `zip_n` and `lift`. If you love apply and work with lists, you definitely should check out `purrr`.
