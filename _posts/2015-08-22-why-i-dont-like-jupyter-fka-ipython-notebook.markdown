@@ -41,7 +41,7 @@ This is maybe R specific, but I made an experience that the output is incomplete
 
 #### Potential security risks?
 
-I ain't no security specialist, but the notebook opens a http port. Pray to lord it will not land on 0.0.0.0 port. In that case the whole universe has access to your notebook and thus to your system. I think I should write a crawler which checks for open Jupyter ports on random machines. That will teach you a lesson.
+I ain't no security specialist, but the notebook opens a http port. Pray to lord it will not land on 0.0.0.0 host. In that case the whole universe has access to your notebook and thus to your system. I think I should write a crawler which checks for open Jupyter ports on random machines. That will teach you a lesson.
 
 #### Limitation
 
