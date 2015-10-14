@@ -1,11 +1,17 @@
 ---
+layout: post
 title: "Emoticons decoder for social media sentiment analysis in R"
-author: "Jessica Peterka-Bonetta"
-date: "17. September 2015"
-output: pdf_document
+excerpt:
+categories: articles
+tags: [R, Twitter, Emoticons]
+published: true
+comments: true
+author: jess
+date: 2015-10-13T20:00:00+02:00
+share: true
 ---
 
-If you ever retrieved data from Twitter, Facebook or Instagram with R, you might have noticed a strange phenomenon. While R seems to be able to display some emoticons properly, many other times it doesn´t, making any further analysis impossible unless you get rid of them. With a little hack, I decoded these emoticons and put them all in a dictionary for further use. I´ll explain how I did it and share the [decoder](https://github.com/today-is-a-good-day/Emoticons/blob/master/emDict.csv) with you.  
+<span class = "dropcap">I</span>f you ever retrieved data from Twitter, Facebook or Instagram with R, you might have noticed a strange phenomenon. While R seems to be able to display some emoticons properly, many other times it doesn´t, making any further analysis impossible unless you get rid of them. With a little hack, I decoded these emoticons and put them all in a dictionary for further use. I´ll explain how I did it and share the [decoder](https://github.com/today-is-a-good-day/Emoticons/blob/master/emDict.csv) with you.  
 
 ## The meaning of Emoticons and why you should analyze them
 As far as I remember, all the sentiment analysis codes I came across dealt with emoticons by simply getting rid of them. Now, it might be ok if you´re interested in analyzing someone´s vocabulary or do some fancy wordclouds. But if you want to perform sentiment analysis, than these emoticons are probably the most meaningful part of your data! Sentiments, emotions, emoticons, you know, there´s a link ;) Not only are they full of meaning by themselves, they also have the vertue to change the meaning of the sentences they are appended to. Think of a tweet like "I´m going to bed". It has a dramatically different meaning, depending on whether a happy smiley or a sad smiley is associated to it. Long story short: **If you´re interested in sentiment, you MUST capture emoticons!**
@@ -28,7 +34,7 @@ The display problem seems related to the length of the code. Apparently, if an e
 
 Now, the real problem occurs when you retrieve data from social media. This is how tweets look like when retrieved with the userTimeline() function and parsed to a data frame with the twListToDF() function from the twitteR package: 
 
-![](tweetsdf.png)
+![]({{ site.url }}/images/jessica/tweetsdf.png)
 
 For demonstration purposes, I needed to find a twitter user who integrates a lot of different emoticons in his or her tweets. And who is better suited than emoticons queen [Paris Hilton](https://twitter.com/parishilton) herself? No one, believe me :D As you can see, many emoticons aren´t displayed correctly but appear as strange question marks symbols instead, while others are displayed as emoticons. 
 
