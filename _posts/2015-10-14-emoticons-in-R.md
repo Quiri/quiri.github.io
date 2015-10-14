@@ -34,7 +34,7 @@ The display problem seems related to the length of the code. Apparently, if an e
 
 Now, the real problem occurs when you retrieve data from social media. This is how tweets look like when retrieved with the userTimeline() function and parsed to a data frame with the twListToDF() function from the twitteR package: 
 
-![](tweetsdf.png)
+![]({{ site.url }}/images/jessica/tweetsdf.png)
 
 For demonstration purposes, I needed to find a twitter user who integrates a lot of different emoticons in his or her tweets. And who is better suited than emoticons queen [Paris Hilton](https://twitter.com/parishilton) herself? No one, believe me :D As you can see, many emoticons aren´t displayed correctly but appear as strange question marks symbols instead, while others are displayed as emoticons. 
 
