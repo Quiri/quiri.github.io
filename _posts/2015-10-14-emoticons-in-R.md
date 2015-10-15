@@ -4,7 +4,7 @@ title: "Emoticons decoder for social media sentiment analysis in R"
 excerpt:
 categories: articles
 tags: [R, Twitter, Emoticons, Social Media]
-published: true
+published: false
 comments: true
 author: jess
 date: 2015-10-13T20:00:00+02:00
