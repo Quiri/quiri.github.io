@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Emoticons decoder for social media sentiment analysis in R"
-excerpt:
+excerpt: "A workaround to handle emoticons"
 categories: articles
 tags: [R, Twitter, Emoticons, Social Media]
 published: false
@@ -11,10 +11,10 @@ date: 2015-10-13T20:00:00+02:00
 share: true
 ---
 
-<span class = "dropcap">I</span>f you ever retrieved data from Twitter, Facebook or Instagram with R, you might have noticed a strange phenomenon. While R seems to be able to display some emoticons properly, many other times it doesn't, making any further analysis impossible unless you get rid of them. With a little hack, I decoded these emoticons and put them all in a dictionary for further use. I'll explain how I did it and share the [decoder](https://github.com/today-is-a-good-day/Emoticons/blob/master/emDict.csv) with you.  
+<span class = "dropcap">I</span>f you have ever retrieved data from Twitter, Facebook or Instagram with R, you might have noticed a strange phenomenon. While R seems to be able to display some emoticons properly, many other times it doesn't, making any further analysis impossible unless you get rid of them. With a little hack, I decoded these emoticons and put them all in a dictionary for further use. I'll explain how I did it and share the [decoder](https://github.com/today-is-a-good-day/Emoticons/blob/master/emDict.csv) with you.  
 
 ## The meaning of Emoticons and why you should analyze them
-As far as I remember, all the sentiment analysis codes I came across dealt with emoticons by simply getting rid of them. Now, it might be ok if you're interested in analyzing someone's vocabulary or do some fancy wordclouds. But if you want to perform sentiment analysis, than these emoticons are probably the most meaningful part of your data! Sentiments, emotions, emoticons, you know, there's a link ;) Not only are they full of meaning by themselves, they also have the vertue to change the meaning of the sentences they are appended to. Think of a tweet like "I'm going to bed". It has a dramatically different meaning, depending on whether a happy smiley or a sad smiley is associated to it. Long story short: **If you're interested in sentiment, you MUST capture emoticons!**
+As far as I remember, all the sentiment analysis codes I came across dealt with emoticons by simply getting rid of them. Now, it might be ok if you're interested in analyzing someone's vocabulary or do some fancy wordclouds. But if you want to perform sentiment analysis, than these emoticons are probably the most meaningful part of your data! Sentiments, emotions, emoticons, you know, there's a link ;) Not only are they full of meaning by themselves, they also have the virtue to change the meaning of the sentences they are appended to. Think of a tweet like "I'm going to bed". It has a dramatically different meaning, depending on whether a happy smiley or a sad smiley is associated to it. Long story short: **If you're interested in sentiment, you MUST capture emoticons!**
 
 ## Emoticons and R
 As mentioned earlier, R seems to be totally capable of properly displaying some emoticons, while it fails displayng others. Try inputing `\xE2\x9D\xA4` (heavy black heart) to the console and this is how the output will look like: 
@@ -55,9 +55,9 @@ Also, try to pass the tweet to the `str()` function and you will get an error me
 '<a0><bc>\x<65>d<b7><a8>\xed<a0><bc>\xed<b7><b3> https://t.co/0p90p8Rrhu"'
 {% endhighlight text %}
 
-If you don't need the emoticons, the most reasonable thing to do is to get rid of them. But given that I wanted to include them in my analysis, I was facing two problems: First, it was difficult to handle the tweets because their format messed up with some functions and lead to error messages. I needed to change their eoncoding. Second, I couldn't identify the emoticons as the way R encodes them doesn't correspond to their actual UTF-8 encoding. It's a real pain in the neck, especially (but not only) if you're analyzing Paris Hilton's tweets, because she just LOVES her musical notes emoticons ;) The solution that came to my mind was to decode them. 
+If you don't need the emoticons, the most reasonable thing to do is to get rid of them. But given that I wanted to include them in my analysis, I was facing two problems: First, it was difficult to handle the tweets because their format messed up with some functions and lead to error messages. I needed to change their encoding. Second, I couldn't identify the emoticons as the way R encodes them doesn't correspond to their actual UTF-8 encoding. It's a real pain in the neck, especially (but not only) if you're analyzing Paris Hilton's tweets, because she just LOVES her musical notes emoticons ;) The solution that came to my mind was to decode them. 
 
-First things first, I used the `inconv()` function with the follwing parameters to be able to further handle the tweets. As you can see, the multiple musical notes emoticon `\xF0\x9F\x8E\xB6` now appears as `<ed><a0><bc><ed><be><b6>`. This is an encoding I could work with and this was going to be the basis of the decoder.
+First things first, I used the `iconv()` function with the following parameters to be able to further handle the tweets. As you can see, the multiple musical notes emoticon `\xF0\x9F\x8E\xB6` now appears as `<ed><a0><bc><ed><be><b6>`. This is an encoding I could work with and this was going to be the basis of the decoder.
 
 {% highlight R %}
 tweets2 <- data.frame(text = iconv(tweets$text, "latin1", "ASCII", "byte"), 
