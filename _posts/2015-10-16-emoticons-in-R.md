@@ -4,10 +4,10 @@ title: "Emoticons decoder for social media sentiment analysis in R"
 excerpt: "A workaround to handle emoticons"
 categories: articles
 tags: [R, Twitter, Emoticons, Social Media]
-published: false
+published: yes
 comments: true
 author: jess
-date: 2015-10-13T20:00:00+02:00
+date: 2015-10-16T20:00:00+02:00
 share: true
 ---
 
