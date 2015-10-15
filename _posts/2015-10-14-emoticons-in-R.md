@@ -17,23 +17,23 @@ share: true
 As far as I remember, all the sentiment analysis codes I came across dealt with emoticons by simply getting rid of them. Now, it might be ok if you're interested in analyzing someone's vocabulary or do some fancy wordclouds. But if you want to perform sentiment analysis, than these emoticons are probably the most meaningful part of your data! Sentiments, emotions, emoticons, you know, there's a link ;) Not only are they full of meaning by themselves, they also have the vertue to change the meaning of the sentences they are appended to. Think of a tweet like "I'm going to bed". It has a dramatically different meaning, depending on whether a happy smiley or a sad smiley is associated to it. Long story short: **If you're interested in sentiment, you MUST capture emoticons!**
 
 ## Emoticons and R
-As mentioned earlier, R seems to be totally capable of properly displaying some emoticons, while it fails displayng others. Try inputing "\xE2\x9D\xA4" (heavy black heart) to the console and this is how the output will look like: 
+As mentioned earlier, R seems to be totally capable of properly displaying some emoticons, while it fails displayng others. Try inputing `\xE2\x9D\xA4` (heavy black heart) to the console and this is how the output will look like: 
 
-```
+{% highlight text %}
 ## [1] "❤"
-```
+{% endhighlight text %}
  
 Just as expected. So far, so good. 
 
-Now try inputing this "\xF0\x9F\x98\x8A" (smiling face with smiling eyes) and R won't display it as an emoticon:
+Now try inputing this `\xF0\x9F\x98\x8A` (smiling face with smiling eyes) and R won't display it as an emoticon:
 
-```
+{% highlight text %}
 ## [1] "\U0001f60a"
-```
+{% endhighlight text %}
 
 The display problem seems related to the length of the code. Apparently, if an emoticon's UTF-8 code is longer then 12 characters, it won't be displayed properly. Find a list of emoticons with their respective encodings [here](http://apps.timwhitlock.info/emoji/tables/unicode). 
 
-Now, the real problem occurs when you retrieve data from social media. This is how tweets look like when retrieved with the userTimeline() function and parsed to a data frame with the twListToDF() function from the twitteR package: 
+Now, the real problem occurs when you retrieve data from social media. This is how tweets look like when retrieved with the `userTimeline()` function and parsed to a data frame with the `twListToDF()` function from the twitteR package: 
 
 ![]({{ site.url }}/images/jessica/tweetsdf.png)
 
@@ -41,22 +41,36 @@ For demonstration purposes, I needed to find a twitter user who integrates a lot
 
 Printed to the console, the strange question marks symbols aka emoticons look like unicode except that it is not unicode and doesn't match the actual, right UTF-8 encoding I expected. Take this tweet, for example:   
 
-```
-## [1] "At sound check last night for the ports1961womenswear After Party. \xed\xa0\xbc\xed\xbe\xb6\
-xed\xa0\xbd\xed\xb1\xb8\xed\xa0\xbc\xed\xbf\xbc\xed\xa0\xbc\xed\xbe\xb6 @ Shanghai, 
-China https://t.co/Y9lE9mXjIL"
-```
-The first emoticon consists of multiple musical notes, it's corresponding UTF-8 encoding is "\xF0\x9F\x8E\xB6" but it is being printed out as "<a0><bc>\x<65>d<be><b6>".
+{% highlight text %}
+## [1] "At sound check last night for the ports1961womenswear After Party. 
+\xed\xa0\xbc\xed\xbe\xb6\xed\xa0\xbd\xed\xb1\xb8\xed\xa0\xbc\xed\xbf\xbc\
+xed\xa0\xbc\xed\xbe\xb6 @ Shanghai, China https://t.co/Y9lE9mXjIL"
+{% endhighlight text %}
+ 
+The first emoticon consists of multiple musical notes, it's corresponding UTF-8 encoding is `\xF0\x9F\x8E\xB6` but it is being rendered as `\xed\xa0\xbc\xed\xbe\xb6\`.
 
-Also, try to pass the tweet to the str() function and you will get an error message: 
-
-```
+Also, try to pass the tweet to the `str()` function and you will get an error message: 
+{% highlight text %}
 ## Error in strtrim(e.x, nchar.max): invalid multibyte string at 
 '<a0><bc>\x<65>d<b7><a8>\xed<a0><bc>\xed<b7><b3> https://t.co/0p90p8Rrhu"'
-```
+{% endhighlight text %}
 
-If you don't need the emoticons, you can get rid of them using the iconv() function. But given that I wanted to include them in my analysis, I was facing a problem: I couldn't identify the emoticons as the way R encodes them doesn't correspond to their actual UTF-8 encoding. It's a real pain in the neck, especially (but not only) if you're analyzing Paris Hilton's tweets, because she just LOVES her musical notes emoticons ;) The solution that came to my mind was to decode them.
+If you don't need the emoticons, the most reasonable thing to do is to get rid of them. But given that I wanted to include them in my analysis, I was facing two problems: First, it was difficult to handle the tweets because their format messed up with some functions and lead to error messages. I needed to change their eoncoding. Second, I couldn't identify the emoticons as the way R encodes them doesn't correspond to their actual UTF-8 encoding. It's a real pain in the neck, especially (but not only) if you're analyzing Paris Hilton's tweets, because she just LOVES her musical notes emoticons ;) The solution that came to my mind was to decode them. 
 
+First things first, I used the `inconv()` function with the follwing parameters to be able to further handle the tweets. As you can see, the multiple musical notes emoticon `\xF0\x9F\x8E\xB6` now appears as `<ed><a0><bc><ed><be><b6>`. This is an encoding I could work with and this was going to be the basis of the decoder.
+
+{% highlight R %}
+tweets2 <- data.frame(text = iconv(tweets$text, "latin1", "ASCII", "byte"), 
+                          stringsAsFactors = FALSE)
+{% endhighlight R %}
+ 
+{% highlight text %}
+## [1] "At sound check last night for the ports1961womenswear After Party. 
+<ed><a0><bc><ed><be><b6><ed><a0><bd><ed><b1><b8><ed><a0><bc><ed><bf><bc>
+<ed><a0><bc><ed><be><b6> @ Shanghai, China https://t.co/Y9lE9mXjIL"
+{% endhighlight text %}
+
+ 
 ## Building an emoticons decoder for R
 This is how I did it. 
 
