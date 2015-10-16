@@ -7,7 +7,7 @@ tags: [R, Twitter, Emoticons, Social Media]
 published: yes
 comments: true
 author: jess
-date: 2015-10-16T20:00:00+02:00
+date: 2015-10-16T07:00:00+02:00
 share: true
 ---
 
