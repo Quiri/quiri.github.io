@@ -6,7 +6,7 @@ categories: articles
 tags: [R, ggplot, rvest, James Bond]
 comments: true
 share: true
-published: false
+published: true
 author: safferli
 ---
 
