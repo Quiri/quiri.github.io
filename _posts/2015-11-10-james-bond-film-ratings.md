@@ -46,7 +46,7 @@ bond.films <- bond.wiki %>%
 
 `rvest` really is that easy to use. It was the first time I used it, and I have to say, I like it a lot. It'll make pulling data from internet webpages much, much easier in the future for me! 
 
-The only problem is that the table in the wiki article has a lot of extra information (like footnotes) that we now need to clean to get a nice, usable dataframe. It's relatively straightforward, if you're interested in the details you can check out the full code on [github](https://github.com/safferli/james_bond_films). 
+The only problem is that the table in the wiki article has a lot of extra information (like footnotes) that we now need to clean to get a nice, usable dataframe. It's relatively straightforward, I've written a couple of custom functions doing mainly some regexp cleaning. These are the `f.` functions in the code below. If you're interested in the details you can check out the full code, including the function code on [github](https://github.com/safferli/james_bond_films). 
 
 {% highlight r %}
 # lots of cleaning to work to be done now...
@@ -152,6 +152,7 @@ With this information, we can build a large `ggplot` graph with all the informat
 {% highlight r %}
 ggplot() + 
   # place geom_rect first, then other geoms will "write over" the rectangles
+  # write a background rectangle for each Bond actor years of service
   geom_rect(data = actor.grp, aes(xmin = yearmin, xmax = yearmax, 
                                   ymin = -Inf, ymax = Inf, 
                                   fill = Bond.actor), alpha = 0.3)+
