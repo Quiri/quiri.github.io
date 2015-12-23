@@ -6,13 +6,13 @@ categories: articles
 tags: [R, Spark, Python, Hadoop, Scala, Sublime Text, Hive]
 comments: true
 share: true
-published: false 
+published: true 
 author: yuki
+date: 2015-13-23T12:00:00+02:00
 ---
 
 # tl;dr
-
-Sublimerepl extended functionality for SSH remote R, Python, Scala, Spark, Hive, you name it (and this is only tested for OS X).  
+Sublime Text is a powerful text editor. Here I introduce how to add custom REPL config for remote/local R, Python, Scala, Spark, Hive, you name it (this is only tested for OS X).  
 The example below interprets local Python (top), R (middle) and Hive (bottom) code on remote.
 
 ![sublimedemo]({{ site.url }}/images/sublimedemo.gif)
@@ -20,10 +20,10 @@ The example below interprets local Python (top), R (middle) and Hive (bottom) co
 
 # IDE for everything
 
-Good IDEs are everywhere. RStudio for R, Pycharm for Python, IntelliJ for Scala. It seems like there's no need for any more but this is for lazy data nerds who want to work on everything. Everything from hadoop ETL, Spark machine learning, R Shiny to HTML/CSS editing in one IDE.  
+Good IDEs are everywhere. RStudio for R, Pycharm for Python, IntelliJ for Scala. But these are specialized in one language and what I wanted to have is a tool for broad and multi-language data science tasks with autocompletion, FTP, highlighter, formatter, split editing, local/remote evaluation and REPL. I especially wanted REPL functionality that takes single inputs, evaluates them, and returns the result for quick prototyping. Sublime Text is a popular text editor with massive amount of plugins that provides quite a lot of what you need. By adding custom REPL, Sublime Text becomes an all-in-one tool for every data science task from hadoop ETL, Spark machine learning, HTML/CSS editing to markdown reporting.  
 
 
-The setup is heavily based on the following two packages  
+The above gif setup is heavily based on the following two packages  
 
 - [SublimeREPL](https://github.com/wuub/SublimeREPL)  
 enables REPL inside Sublime Text
@@ -37,18 +37,19 @@ When you have them installed, the only thing you need to do is to add a new Subl
 
 First thing you need to do is to find out SublimeREPL config file location. Most probably you can find it by **Sublime Text** tab, **Preferences**, **Brouse Packages**, **SublimeREPL**, then **config** (I use OS X 10.10.5).
 
-As an example, we are going through the **remote_R** sublime interepreter config.  
+As an example, we are going to add **remote_R** sublime interepreter config. This should be useful when you have local R script and like to evaluate it remotelly.  
 
 {% highlight sh %}
-cd YOURSUBLIMEREPLCONFIGFOLDER  
+cd YOURSUBLIMEREPLCONFIGFOLDER #Move to YOURSUBLIMEREPLCONFIGFOLDER  
 cp -r R remote_R #This will create remote_R folder  
 cd remote_R #Go to remote_R  
 open . #Open the folder
 {% endhighlight %}
 
 You'll find two files in the folder.  
-Now we are going to give SublimeREPL access to your remote R (I assume you can SSH to your remote).
-Edit the files as explained below.
+Now we are going to give SublimeREPL access to your remote R (I assume you can SSH to your remote).  
+Open the files and edit some lines as shown below.  
+Find the lines with **#CHANGE** , those are the ones I changed. You'll see caption and id are no longer "R" but "remote_R". And cmd now accesses to your remote R .
 
 **If you copy & paste the below code, don't forget to delete #CHANGE blah blah comment. JSON doesn't accept comments**
 
@@ -114,7 +115,7 @@ Edit the files as explained below.
 ]
 {% endhighlight %}
 
-Now you should see new **remote_R** added to your SublimeREPL if you search remote_R in Command Palette (default key binding is command + shift + p)  
+Now you should see new **remote_R** REPL functionality was added to your SublimeREPL if you type remote_R in Command Palette (default key binding is command + shift + p)  
 ![remoter]({{ site.url }}/images/remoter.png)
 
 
