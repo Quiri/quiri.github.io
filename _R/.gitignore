@@ -3,3 +3,4 @@
 !*.R
 !*.md
 !.gitignore
+!scripts/
