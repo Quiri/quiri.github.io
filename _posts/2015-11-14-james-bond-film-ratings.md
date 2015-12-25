@@ -6,8 +6,9 @@ categories: articles
 tags: [R, ggplot, rvest, James Bond]
 comments: true
 share: true
-published: false
+published: true
 author: safferli
+date: 2015-11-14T13:00:00+02:00
 ---
 
 > James Bond: Do you expect me to talk?  
