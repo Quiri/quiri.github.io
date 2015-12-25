@@ -33,5 +33,5 @@ top %>% ggplot() +
   scale_x_discrete(limits = rev(top$package)) +
   scale_y_continuous(labels = comma) +
   coord_flip() + 
-  ylab("Downloads from R-Studio CRAN mirror") + xlab("") +
+  ylab("Avg. daily downloads since release from R-Studio CRAN mirror") + xlab("") +
   ggtitle("Top 20 new CRAN packages in 2015")
