@@ -28,10 +28,11 @@ top <- logs %>%
   head(20)
 
 top %>% ggplot() + 
-  aes (x = package, y = avg) + 
+  aes (x = package, y = avg, fill = package) + 
   geom_bar(stat = "identity") + 
   scale_x_discrete(limits = rev(top$package)) +
   scale_y_continuous(labels = comma) +
-  coord_flip() + 
+  coord_flip() +
+  guides(fill = FALSE) +
   ylab("Avg. daily downloads since release from R-Studio CRAN mirror") + xlab("") +
   ggtitle("Top 20 new CRAN packages in 2015")
