@@ -4,11 +4,11 @@ title: Mini AI app using TensorFlow and Shiny
 categories: articles
 excerpt: "Image recognition and wordcloud"
 tags: [R, Shiny, Image recognition, TensorFlow, AI]
-published: false
+published: true
 comments: true
 author: yuki
 share: true
-date: 2016-01-12T20:00:00+02:00
+date: 2016-01-15T06:00:00+02:00
 ---
 
 # tr;dr
