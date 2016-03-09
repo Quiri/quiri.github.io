@@ -190,7 +190,7 @@ g.pageRank(resetProbability=0.15, tol=0.01).vertices.sort(
 
 ## Visualise the network
 
-When you run [__gsw_passing_network.py__](linkhere) in my github repo, you have *passes.csv*, *groups.csv* and *size.csv* in your working directory.  
+When you run [__gsw_passing_network.py__](https://github.com/yukiegosapporo/gsw_passing_network/blob/master/gsw_passing_network.py) in my github repo, you have *passes.csv*, *groups.csv* and *size.csv* in your working directory.  
 I used *networkD3* package in R to make a cool interactive D3 chart.  
 
 {% highlight r %}
