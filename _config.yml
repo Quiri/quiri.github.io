@@ -12,7 +12,7 @@ disqus-shortname: opiateforthemasses
 encoding: utf-8
 permalink:   /:categories/:title/
 markdown:    kramdown
-highlighter: pygments
+highlighter: rouge
 sass:
   sass_dir: _sass
   style: compressed
