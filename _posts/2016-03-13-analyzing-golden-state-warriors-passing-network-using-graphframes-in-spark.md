@@ -4,11 +4,11 @@ title: Analyzing Golden State Warriors' passing network using GraphFrames in Spa
 categories: articles
 excerpt: "and interactive chart with networkD3"
 tags: [Python, Spark, GraphX, GraphFrames, R, networkD3]
-published: false
+published: true
 comments: true
 author: yuki
 share: true
-date: 2016-03-11T06:00:00+02:00
+date: 2016-03-13T06:00:00+02:00
 ---
 
 
@@ -139,6 +139,8 @@ raw['id'] = raw['PLAYER'].str.replace(', ', '')
 You need a special data format for GraphFrames in Spark, vertices and edges.  
 Vertices are lis of nodes and IDs in a graph.  
 Edges are the relathionship of the nodes.   
+You can pass additional features like weight but I couldn't find out a way to utilize there features well in later analysis. 
+A workaround I took below is brute force and not even a proper graph operation but works (suggestions/comments are very welcome).  
 
 {% highlight python %}
 # Make raw vertices
