@@ -9,7 +9,6 @@ comments: true
 author: yuki
 share: true
 date: 2016-03-15T16:00:00+02:00
-
 ---
 
 <!--html_preserve--><div id="htmlwidget-5445" style="width:804px;height:504px;" class="forceNetwork html-widget"></div>
