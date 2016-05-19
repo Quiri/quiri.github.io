@@ -6,19 +6,22 @@ categories: articles
 tags: [R, Rcpp, boost, IP addresses]
 comments: true
 share: true
-published: false
+published: true
 author: safferli
+date: 2016-05-19T08:30:21+02:00 
 ---
 
 ## IP address conversion
 
-At work I recently had to match data on IP addresses and some fuzzy timestamp matching -- a mess, to say the least. But before I could even tackle that problem, one dataset had the IPs stored as a character (e.g. `10.0.0.0`), while the other dataset had the IP addresses converted as integers (e.g. `167772160`). 
+<span class = "dropcap">A</span>t work I recently had to match data on IP addresses and some fuzzy timestamp matching -- a mess, to say the least. But before I could even tackle that problem, one dataset had the IPs stored as a character (e.g. `10.0.0.0`), while the other dataset had the IP addresses converted as integers (e.g. `167772160`). 
 
 Storing IPs as integers has the advantage of saving some space and making calculations easier. [This page](http://www.aboutmyip.com/AboutMyXApp/IP2Integer.jsp?ipAddress=10.0.0.0) goes into detail on how this conversion is made. You split the IP address into the four octets and then shift each octed by sets of 8 bit: 
 
  	(first octet * 256³) + (second octet * 256²) + (third octet * 256) + (fourth octet)
 
-Using `10.0.0.0` as an example: $(10*256^3) + (0*256^2) + (0*256^1) + (0*256^0) = 167772160$
+Using `10.0.0.0` as an example: 
+
+`(10*256^3) + (0*256^2) + (0*256^1) + (0*256^0) = 167772160`
 
 
 ## Converting in R
@@ -104,9 +107,5 @@ rinet_pton(c("10.0.0.0", "192.168.0.1"))
 
 I should note that I know nothing of cpp programming, and this was fully hacked by following the Rcpp examples. The `rinet_ntop()` function throws an error on passing negative numbers (it expects an unsigned long), so you can't reconvert the `192.168.0.1` IP to integer and back. This was not a problem for me, since all I needed was to match the IPs, and my integer IPs in the one dataset were created via boost in the first place. 
 
-The code is availble on github as [a gist](https://gist.github.com/safferli/70a858a460c0a084e35bcb71bc214273)
-
-
-
-
+The code is availble on github as [a gist](https://gist.github.com/safferli/70a858a460c0a084e35bcb71bc214273).
 
