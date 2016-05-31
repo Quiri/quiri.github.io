@@ -6,7 +6,7 @@ categories: articles
 tags: [Python, JavaScript, paper.js]
 comments: true
 share: true
-published: true 
+published: false 
 author: yuki
 date: 2016-06-01 09:25:13 +02:00
 ---
