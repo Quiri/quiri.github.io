@@ -11,7 +11,7 @@ share: true
 date: 2016-01-15T06:00:00+02:00
 ---
 
-# tr;dr
+# tl;dr
 
 <span class = "dropcap">S</span>imple image recognition app using TensorFlow and Shiny
 
