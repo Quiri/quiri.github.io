@@ -5,13 +5,13 @@ library(pbapply)
 library(ggplot2)
 library(scales)
 
-berries <- read_html("http://dirk.eddelbuettel.com/cranberries/2015/")
+berries <- read_html("http://dirk.eddelbuettel.com/cranberries/2016/")
 titles <- berries %>% html_nodes("b") %>% html_text
 new <- titles[grepl("^New package", titles)] %>% 
   gsub("^New package (.*) with initial .*", "\\1", .) %>% unique
 
 logs <- pblapply(new, function(x) {
-  down <- cran_downloads(x, from = "2015-01-01")$count 
+  down <- cran_downloads(x, from = "2016-01-01")$count 
   if(sum(down) > 0) {
     public <- down[which(down > 0)[1]:length(down)]
   } else {
@@ -35,5 +35,5 @@ top %>% ggplot() +
   coord_flip() +
   guides(fill = FALSE) +
   ylab("Avg. daily downloads since release from R-Studio CRAN mirror") + xlab("") +
-  ggtitle("Top 20 new CRAN packages in 2015")
-ggsave(file="cran-top20-2015.png", width = 25, height = 25/((1+sqrt(5))/2), units = "cm")
+  ggtitle("Top 20 new CRAN packages in 2016")
+ggsave(file="cran-top20-2016.png", width = 25, height = 25/((1+sqrt(5))/2), units = "cm")
