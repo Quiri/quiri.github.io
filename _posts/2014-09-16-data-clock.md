@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Rock around the data clock
-excerpt:
+excerpt: Nice hour charts in R
 date: 2014-10-21 20:25:13.000000000 +02:00
 categories: articles
 tags: [R]

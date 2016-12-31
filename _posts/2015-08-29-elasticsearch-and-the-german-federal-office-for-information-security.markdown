@@ -3,7 +3,7 @@ layout: post
 title: Elasticsearch & the German Federal Office for Information Security
 modified:
 categories: articles
-excerpt:
+excerpt: A friendly warning from federal hackers
 tags: []
 published: true
 comments: true
