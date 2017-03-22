@@ -11,9 +11,9 @@ date: 2017-03-02T07:00:00+02:00
 share: true
 ---
 
-<span class = "dropcap">A</span> while ago I developed and shared an emoji decoder because I was facing problems when retrieving data from Twitter and Instragram. For those who don't want to read [the article](http://opiateforthemass.es/articles/emoticons-in-R/), basically the issue is that R encodes emojis in a way that makes it a hassle identifying them. This is where the decoder/dictionary comes into play.  
+<span class = "dropcap">A</span> while ago I developed and shared [an emoji decoder](http://opiateforthemass.es/articles/emoticons-in-R/) because I was facing problems when retrieving data from Twitter and Instragram. In a nutshell, the issue is that R encodes emojis in a way that makes it a hassle identifying them. This is where the decoder/dictionary comes into play.  
 
-After I put together my decoder, new emojis have been released. For example, certain emojis came with different skin colours. [This list](http://unicode.org/emoji/charts/full-emoji-list.html) is a more complete version than the one I used for my decoder. Felipe put together [a new decoder](https://raw.githubusercontent.com/felipesua/sampleTexts/master/emojis.csv) based on the new list which I will use in the post. This skin tone thingie adds a little bit of complexity to the analysis, as these emojis have slightly different descriptions. The princess emoji for instance can be either the plain princess or the princess with a defined skin colour, for example princess: light skin tone, in which simple string matching would fail to identify these as being the same emoji. It's gonna require some special attention when cleaning the data. More on that later in the code. 
+After I put together my decoder, new emojis have been released. For example, certain emojis came with different skin colours. [This list](http://unicode.org/emoji/charts/full-emoji-list.html) is a more complete version than the one I used for my decoder. [Felipe](https://stackoverflow.com/users/7078119/felipe-su%C3%A1rez-colmenares) put together [a new decoder](https://raw.githubusercontent.com/felipesua/sampleTexts/master/emojis.csv) based on the new list which I will use in the post. This skin tone thingie adds a little bit of complexity to the analysis. In fact, the skin tone information is an own unicode codepoint. It means that an emoji with skin tone information (e.g. boy: light kin tone "U+1F466 U+1F3FB") consists of two unicode codepoints: the codepoint for the emoji (e.g. "U+1F466" for boy) and the codepoint for the respective skin tone (e.g. "U+1F3FB" for light skin tone). The descriptions are thus slightly different (e.g. "princess" vs "princess: light skin tone") in which case simple string matching would fail to identify these as being the same emoji. It's gonna require some special attention when cleaning the data. More on that later in the code. 
 
 Alright, so with the decoder at hand, we're able to identify the emojis in, say, a tweet retrieved with the `twitteR` package. What now? Quite some people contacted me since I released the article asking for advice concerning emojis analysis and I'd like to cover some questions in this post. 
 
@@ -36,7 +36,8 @@ library(tm)
 Sys.setlocale(category = "LC_TIME", locale = "en_US.UTF-8")
 
 # load twitter credentials and authorize
-load("twitCred.Rdata")
+# I stored my twitter credentials in a list in an .RData file 
+load("twitCred.RData")
 api_key <- twitCred$consumerKey
 api_secret <- twitCred$consumerSecret
 access_token <- twitCred$oauthKey
@@ -44,8 +45,9 @@ access_token_secret <- twitCred$oauthSecret
 setup_twitter_oauth(api_key,api_secret,access_token,access_token_secret)
 
 # read in emoji dictionary
+# find the dictionary here: https://raw.githubusercontent.com/felipesua/sampleTexts/master/emojis.csv
 emDict_raw <- read.csv2("../emojis.csv") %>% 
-  select(EN, ftu8) %>% 
+  select(EN, ftu8, unicode) %>% 
   rename(description = EN, r.encoding = ftu8)
 
 # plain skin tones
@@ -56,64 +58,42 @@ skin_tones <- c("light skin tone",
                 "dark skin tone")
 
 # I don't need the skin tone info, so I remove plain skin tones and skin tone info in description
-# if you need this infor, obviously don't delete it!
+# if you need this info, obviously don't delete it!
 emDict <- emDict_raw %>%
+  # remove plain skin tones emojis
   filter(!description %in% skin_tones) %>%
-  mutate(description = gsub("(.*):.*", "\\1", description)) %>%
-  # now we have several occurences of "woman" e.g. and we only want to keep the 
-  # first one with the code that doesn't contain the skin info
-  group_by(description) %>% 
-  slice(1:1)
+  # remove emojis with skin tones info, e.g. remove woman: light skin tone and only
+  # keep woman
+  filter(!grepl(":", description)) %>%
+  mutate(description = tolower(description)) %>%
+  mutate(unicode = as.u_char(unicode))
+# all emojis with more than one unicode codepoint become NA 
 
 # utility functions
 # this function outputs the emojis found in a string as well as their occurences
 # provide a sentiment score for each emoji to get back a sentiment score
 count_matches <- function(string, matchto, description, sentiment = NA) {
-  vec <- c()
-  for (m in matchto) {
-    l <- str_count(string, m)
-    vec <- c(vec, l)
-  }
   
-  if (!is.vector(sentiment)) {
-    vec <- as.data.frame(cbind(string, description, vec), row.names = NULL) %>%
-      rename(count = vec, text = string) %>%
-      filter(count != 0) %>%
-      mutate(count = as.numeric(count))
-    return(vec)
+  vec <- str_count(string, matchto)
+  matches <- which(vec != 0)
+  
+  vec <- data.frame(text = string, description = description[matches], count = vec[matches])
+  
+  if (!is.na(sentiment)) {
+    vec$sentiment <- sentiment[matches]
   }
-  if (is.vector(sentiment)) {
-    
-    vec <- as.data.frame(cbind(string, description, vec, sentiment), row.names = NULL) %>%
-      rename(count = vec, text = string) %>%
-      filter(count != 0) %>%
-      mutate(count = as.numeric(count))
-    return(vec)
-  }
+
+  return(vec)
+  
 }
 
 # this function does the same but with a vector 
 emojis_matching <- function(texts, matchto, description, sentiment = NA) {
-  df <- data.frame()
   
-  if (!is.vector(sentiment)) {
-    
-    for (t in texts) {
-      part <- count_matches(t, matchto, description)
-      df <- rbind(df, part)
-    }
-    
-  }
+  texts %>% 
+    lapply(count_matches, matchto = matchto, description = description) %>%
+    bind_rows
   
-  if (is.vector(sentiment)) {
-    
-    for (t in texts) {
-      part <- count_matches(t, matchto, description, sentiment)
-      df <- rbind(df, part)
-    }
-    
-  }
-  return(df)
 }
 {% endhighlight %}
 
