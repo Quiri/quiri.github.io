@@ -11,192 +11,70 @@ date: 2017-03-02T07:00:00+02:00
 share: true
 ---
 
-<span class = "dropcap">A</span> while ago I developed and shared an emoji decoder because I was facing problems when retrieving data from Twitter and Instragram. For those who don't want to read [the article](http://opiateforthemass.es/articles/emoticons-in-R/), basically the issue is that R encodes emojis in a way that makes it a hassle identifying them. This is where the decoder/dictionary comes into play.  
+<span class = "dropcap">A</span> while ago I developed and shared [an emoji decoder](http://opiateforthemass.es/articles/emoticons-in-R/) because I was facing problems when retrieving data from Twitter and Instragram. In a nutshell, the issue is that R encodes emojis in a way that makes it a hassle identifying them. This is where the decoder/dictionary comes into play.  
 
-After I put together my decoder, new emojis have been released. For example, certain emojis came with different skin colours. [This list](http://unicode.org/emoji/charts/full-emoji-list.html) is a more complete version than the one I used for my decoder. Felipe put together [a new decoder](https://raw.githubusercontent.com/felipesua/sampleTexts/master/emojis.csv) based on the new list which I will use in the post. This skin tone thingie adds a little bit of complexity to the analysis, as these emojis have slightly different descriptions. The princess emoji for instance can be either the plain princess or the princess with a defined skin colour, for example princess: light skin tone, in which simple string matching would fail to identify these as being the same emoji. It's gonna require some special attention when cleaning the data. More on that later in the code. 
+After I put together my decoder, new emojis have been released. For example, certain emojis came with different skin colours. [This list](http://unicode.org/emoji/charts/full-emoji-list.html) is a more complete version than the one I used for my decoder. [Felipe](https://stackoverflow.com/users/7078119/felipe-su%C3%A1rez-colmenares) released [a new decoder](https://raw.githubusercontent.com/felipesua/sampleTexts/master/emojis.csv) based on the new list which I will use in the post. This skin tone thingie adds a little bit of complexity to the analysis. In fact, the skin tone information is an own unicode codepoint. It means that an emoji with skin tone information (e.g. boy: light kin tone "U+1F466 U+1F3FB") consists of two unicode codepoints: the codepoint for the emoji (e.g. "U+1F466" for boy) and the codepoint for the respective skin tone (e.g. "U+1F3FB" for light skin tone). The descriptions are thus slightly different (e.g. "princess" vs "princess: light skin tone") in which case simple string matching would fail to identify these as being the same emoji. It's gonna require some special attention when cleaning the data. More on that in the code.  
 
-Alright, so with the decoder at hand, we're able to identify the emojis in, say, a tweet retrieved with the `twitteR` package. What now? Quite some people contacted me since I released the article asking for advice concerning emojis analysis and I'd like to cover some questions in this post. 
+Alright, so with the decoder at hand, we're able to identify the emojis in, say, a tweet retrieved with the `twitteR` package. What now? Quite some people contacted me since I released the article asking for advice concerning emojis analysis and I'd like to cover some questions in this post. The whole code I used for the analysis in this article is available [here](https://github.com/today-is-a-good-day/emojis/blob/master/emoji_analysis.R). 
 
  
 ## Most used emoji
 One such question was how to determine a users most used emoji. 
 
-Let's start setting everything up. 
-
-{% highlight R %}
-# load packages and set options
-options(stringsAsFactors = FALSE)
-library(dplyr)
-library(twitteR)
-library(stringr)
-library(rvest)
-library(Unicode)
-library(tm)
-
-Sys.setlocale(category = "LC_TIME", locale = "en_US.UTF-8")
-
-# load twitter credentials and authorize
-load("twitCred.Rdata")
-api_key <- twitCred$consumerKey
-api_secret <- twitCred$consumerSecret
-access_token <- twitCred$oauthKey
-access_token_secret <- twitCred$oauthSecret
-setup_twitter_oauth(api_key,api_secret,access_token,access_token_secret)
-
-# read in emoji dictionary
-emDict_raw <- read.csv2("../emojis.csv") %>% 
-  select(EN, ftu8) %>% 
-  rename(description = EN, r.encoding = ftu8)
-
-# plain skin tones
-skin_tones <- c("light skin tone", 
-                "medium-light skin tone", 
-                "medium skin tone",
-                "medium-dark skin tone", 
-                "dark skin tone")
-
-# I don't need the skin tone info, so I remove plain skin tones and skin tone info in description
-# if you need this infor, obviously don't delete it!
-emDict <- emDict_raw %>%
-  filter(!description %in% skin_tones) %>%
-  mutate(description = gsub("(.*):.*", "\\1", description)) %>%
-  # now we have several occurences of "woman" e.g. and we only want to keep the 
-  # first one with the code that doesn't contain the skin info
-  group_by(description) %>% 
-  slice(1:1)
-
-# utility functions
-# this function outputs the emojis found in a string as well as their occurences
-# provide a sentiment score for each emoji to get back a sentiment score
-count_matches <- function(string, matchto, description, sentiment = NA) {
-  vec <- c()
-  for (m in matchto) {
-    l <- str_count(string, m)
-    vec <- c(vec, l)
-  }
-  
-  if (!is.vector(sentiment)) {
-    vec <- as.data.frame(cbind(string, description, vec), row.names = NULL) %>%
-      rename(count = vec, text = string) %>%
-      filter(count != 0) %>%
-      mutate(count = as.numeric(count))
-    return(vec)
-  }
-  if (is.vector(sentiment)) {
-    
-    vec <- as.data.frame(cbind(string, description, vec, sentiment), row.names = NULL) %>%
-      rename(count = vec, text = string) %>%
-      filter(count != 0) %>%
-      mutate(count = as.numeric(count))
-    return(vec)
-  }
-}
-
-# this function does the same but with a vector 
-emojis_matching <- function(texts, matchto, description, sentiment = NA) {
-  df <- data.frame()
-  
-  if (!is.vector(sentiment)) {
-    
-    for (t in texts) {
-      part <- count_matches(t, matchto, description)
-      df <- rbind(df, part)
-    }
-    
-  }
-  
-  if (is.vector(sentiment)) {
-    
-    for (t in texts) {
-      part <- count_matches(t, matchto, description, sentiment)
-      df <- rbind(df, part)
-    }
-    
-  }
-  return(df)
-}
-{% endhighlight %}
-
-Now we're good to go. We'll start collecting some sample data to perform our analysis on. In case you didn't already know, Paris Hilton is my favorite victim when it comes to emojis analysis or social media analysis, for the simple reason that she uses as lot ot them and shares a lot of content. The `emojis_matching` function introduced above is the heart of all the analysis performed in this post. 
+We'll start collecting some sample data to perform our analysis on. In case you didn't already know, Paris Hilton is my favorite victim when it comes to emojis analysis or social media analysis, for the simple reason that she uses as lot ot them and shares a lot of content. The `emojis_matching` function is the heart of all the analysis performed in this post. 
 
 {% highlight R %}
 # get some sample data
 usermedia <- userTimeline(user = "parishilton", n = 3200) %>%
   twListToDF
-# convert to a format we can work with
+# convert to a format we can work with (very important!)
 usermedia$text <- iconv(usermedia$text, from = "latin1", to = "ascii", sub = "byte")
 
-# rank emojis by occurence in data
-rank <- emojis_matching(usermedia$text, emDict$r.encoding, emDict$description) %>% 
-group_by(description) %>% 
-summarise(n = sum(count)) %>%
-arrange(-n)
+# rank emojis by occurence in data, super basic
+rank <- emojis_matching(usermedia$text, matchto, description) %>% 
+  group_by(description) %>% 
+  summarise(n = sum(count)) %>%
+  arrange(-n)
 
 head(rank, 10)
 # A tibble: 10 × 2
                        description     n
-                             <chr> <dbl>
-1                         sparkles   125
-2                         princess    25
-3                     party popper    14
-4                        red heart    12
-5                          balloon    11
-6  people with bunny ears partying    10
-7                Statue of Liberty    10
-8                             fire     9
-9                     glowing star     8
-10                 sparkling heart     8
+                             <chr> <int>
+1                         sparkles   386
+2                         princess   101
+3                     party popper    69
+4                             fire    53
+5  people with bunny ears partying    51
+6                        red heart    46
+7                    musical notes    38
+8                        palm tree    38
+9                  sparkling heart    37
+10                         balloon    34
 {% endhighlight %}
 
-Paris Hilton's favorite emoji is: SPARKLES! Who would have thought ;) Her alltime favorite MUSICAL NOTES landed on place 6 (status quo 2017-02-03).
+Paris Hilton's favorite emoji is: SPARKLES! Who would have thought ;) Her alltime favorite MUSICAL NOTES landed on place 7 (status quo 2017-03-24).
 
 ## Tweet with most emojis
 
-Another possible use case is to determine which tweet contains the most emojis. We can use the `emojis_matching`function for this question again and than arrange by descending count. Done. Easy peasy.
-
-{% highlight R %}
-tweets <- emojis_matching(usermedia$text, emDict$r.encoding, emDict$description) %>% 
-group_by(text) %>% 
-summarise(n = sum(count)) %>%
-# I add the time created because it makes it easiert to look up certain tweets
-merge(usermedia, by = "text") %>% 
-select(text, n, created) %>%
-arrange(-n)
-{% endhighlight %}
+Another possible use case is to determine which tweet contains the most emojis. We can use the `emojis_matching`function for this question again and than arrange by descending count. Done. Easy peasy lemon squeezy. This is how the output looks like:
 
 ![]({{ site.url }}/images/jessica/tweets_ranked.png)
 
 From here, it's easy to calculate the average number of emojis per tweet: 
 
 {% highlight R %}
-mean(tweets$n)
+mean(tweets$n, na.rm = TRUE)
 [1] 3.646341
 {% endhighlight %}
 
 ## Sentiment analysis with emojis
 
-Doing some research for this article, I quickly came accross [this paper](https://www.clarin.si/repository/xmlui/handle/11356/1048), which extensively analyzes the valence (positive, negative, neutral) of emojis in a scientific manner. The authors made a csv file available containing all the emojis with their respective valences. I will base the 
+Doing some research for this article, I came accross [this paper](https://www.clarin.si/repository/xmlui/handle/11356/1048), which extensively analyzes the valence (positive, negative, neutral) of emojis in a scientific manner. The authors made a csv file available containing all the emojis with their respective valences. I will base the 
 sentiment analysis on this file. 
 
-In order to count sentiments in tweets, we'll first need to get the [list](http://kt.ijs.si/data/Emoji_sentiment_ranking/index.html) containing the sentiment score for each emoji.
+For a reason I ignore, the csv file available doesn't contain the sentiment score. The article gives guidance as how to compute the senteiment score of each emoji based on the data in the csv file, but at this point I prefer to scrape the list with the sentiment scores. It's available [here](http://kt.ijs.si/data/Emoji_sentiment_ranking/index.html). This is how the list looks like: 
 
 {% highlight R %}
-# reference website
-url <- "http://kt.ijs.si/data/Emoji_sentiment_ranking/index.html"
-
-# get emojis
-emojis_raw <- url %>%
-read_html() %>%
-html_table() %>%
-  data.frame %>%
-  select(-Image.twemoji., -Sentiment.bar.c.i..95..)
-names(emojis_raw) <- c("char", "unicode", "occurrences", "position", "negative", "neutral", 
-                   "positive", "sentiment_score", "description", "block")
-# change numeric unicode to character unicode to be able to match with emDict 
-emojis <- emojis_raw %>%
-  mutate(unicode = as.u_char(unicode)) %>%
-  mutate(description = tolower(description)) 
-
 str(emojis)
 'data.frame':	751 obs. of  10 variables:
  $ char           : chr  "\U0001f602" "❤" "♥" "\U0001f60d" ...
@@ -211,120 +89,29 @@ str(emojis)
  $ block          : chr  "Emoticons" "Dingbats" "Miscellaneous Symbols" "Emoticons" ...
 {% endhighlight %}
 
-Ok, so we have a list of emojis with their respective unicode codepoints and sentiment scores. We will now merge this list with Felipe's list to have the additional R encoding info. 
-{% highlight R %}
-emojis_merged <- emojis %>%
-  merge(emDict, by = "unicode")
-{% endhighlight %}
-
-This move made us loose 137 emojis that are not in `emDict` and for which we don't have an R encoding. For what I could see, all of them are basic black and white emojis hardly used in a social media context anyways, so I'd say it's not too big of a loss. If you're curious, do `emojis %>% filter(!unicode %in% emDict$unicode) %>% View` to have a glance at the emojis lost in the process. 
-
-The next step consists of matching sentiments to the tweets. Let's do that.
+Ok, so we have a list of emojis with their respective unicode codepoints and sentiment scores. The next step consists of matching sentiments to the tweets. 
 
 {% highlight R %}
-sentiments <- emojis_matching(usermedia$text, 
-                              emojis_merged$r.encoding, 
-                              emojis_merged$description, 
-                              sentiment = emojis_merged$sentiment_score) %>%
+sentiments <- emojis_matching(usermedia$text, new_matchto, new_description, sentiment) %>%
   mutate(sentiment = count*as.numeric(sentiment)) %>%
   group_by(text) %>% 
   summarise(sentiment_score = sum(sentiment))
 {% endhighlight %}
 
+What we get is a list of the tweets with there respective, aggregated sentiment scores: 
+
 ![]({{ site.url }}/images/jessica/sentiments.png)
 
-What we get is a list of the tweets with there respective, aggregated sentiment scores. Most of Paris Hilton's tweets are positive, which was to be expected, with only two tweets identified as having a negative valence.
-I'll merge `sentiments` back to the original `usermedia` object with this piece of code: 
-
-{% highlight R %}
-usermedia_merged <- usermedia %>% 
-  select(text, created) %>% 
-  merge(sentiments, by = "text", all.x = TRUE)
-{% endhighlight %}
-
+Most of Paris Hilton's tweets are positive, which was to be expected, with only two tweets identified as having a negative valence. 
 Some tweets don't have any sentiment score, this is due to the fact that they didn't contain any (identifiable) emoji. 
 
 ## Emojis associated with words in tweets
 
-Let's get a list of the emojis used in the tweets and a list of, say, the top 5 words associated to each and every one of them. 
-
-{% highlight R %}
-# function that separates capital letters hashtags to get the most text out of them
-hashgrep <- function(text) {
-  hg <- function(text) {
-    result <- ""
-    while(text != result) {
-      result <- text
-      text <- gsub("#[[:alpha:]]+\\K([[:upper:]]+)", " \\1", text, perl = TRUE)
-    }
-    return(text)
-  }
-  unname(sapply(text, hg))
-}
-
-# tweets cleaning pipe
-cleanPosts <- function(text) {
-  clean_texts <- text %>%
-    gsub("<.*>", "", .) %>% # remove emojis
-    gsub("&amp;", "", .) %>% # remove &
-    gsub("(RT|via)((?:\\b\\W*@\\w+)+)", "", .) %>% # remove retweet entities
-    gsub("@\\w+", "", .) %>% # remove at people
-    hashgrep %>%
-    gsub("[[:punct:]]", "", .) %>% # remove punctuation
-    gsub("[[:digit:]]", "", .) %>% # remove digits
-    gsub("http\\w+", "", .) %>% # remove html links
-    iconv(from = "latin1", to = "ASCII", sub="") %>% # remove emoji and bizarre signs
-    gsub("[ \t]{2,}", " ", .) %>% # remove unnecessary spaces
-    gsub("^\\s+|\\s+$", "", .) %>% # remove unnecessary spaces
-    tolower
-  return(clean_texts)
-}
-
-# function that outputs a df of emojis with their top 5 words (by frequency)
-wordFreqEmojis <- function(df, text = df$text, description = df$description, top = 5) {
-  
-  
-  words_to_emojis <- data.frame(emoji = character(), 
-                               words = character(), 
-                               frequency = numeric())
-  
-  for (i in unique(description)) {
-    cat(i)
-    dat <- df %>% 
-      filter(description == i)
-    
-    myCorpus <- Corpus(VectorSource(dat$text)) %>%
-      tm_map(removePunctuation) %>%
-      tm_map(stripWhitespace) %>%
-      tm_map(removeWords, stopwords("english"))
-
-    dtm <- DocumentTermMatrix(myCorpus)
-    # find the sum of words in each Document
-    rowTotals <- apply(dtm , 1, sum)
-    dtm.new   <- dtm[rowTotals> 0, ]
-    # collapse matrix by summing over columns
-    freq <- colSums(as.matrix(dtm))
-    # create sort order (descending)
-    ord <- order(freq,decreasing=TRUE)
-
-    df_new <- data.frame(emoji = i, 
-                         words = names(freq[ord][1:top]), 
-                         frequency = freq[ord][1:top], 
-                         row.names = NULL) 
-
-    words_to_emojis <- rbind(words_to_emojis, df_new)
-  }
-  
-  return(words_to_emojis)
-  
-}
-{% endhighlight %}
-
-We have all the functions we need to clean the tweets (you can adjust that step to your needs) and get a data frame with a user's emojis and their top words. 
+One question that came to my mind was with what words each emoji is associated. Before we can perform this kind of text analysis, we need to do the usual house keeping: clean the texts from links, strange characters, punctuation etc. I recommand having a look at [the code](https://github.com/today-is-a-good-day/emojis/blob/master/emoji_analysis.R) to see what I exactly did, especially at the cleaning pipe. Furthermore, I wrote the function `wordFreqEmojis` that outputs a data frame of emojis with their top 5 words (default value, can be changed) by frequency. 
 
 {% highlight R %}
 # get emojis for each tweet and clean tweets
-raw_texts <- emojis_matching(usermedia$text, emDict$r.encoding, emDict$description) %>% 
+raw_texts <- emojis_matching(usermedia$text, matchto, description) %>% 
   select(-sentiment, -count) %>%
   mutate(text = cleanPosts(text)) %>%
   filter(text != "")
@@ -339,14 +126,15 @@ Browsing through `words_emojis`, it's obvious that the data makes a lot of sense
 ![]({{ site.url }}/images/jessica/words_emojis.png)
 
 The top words used along with the emoji "sparkles" are "love", "girl", "paradise" and "gold" among others. 
-In natural language programming, there are literally endless possibilities. One could fine tune the results by using other stopwords, working with word stems or considering ngrams instead of single words just to name a few. 
+
+In natural language programming, there are literally endless possibilities. One could fine tune the results by using other stopwords, working with word stems or considering ngrams instead of single words just to name a few. Besides words, one can also find cooccuring emojis. 
 
 ## Emojis and weekdays
  
 The data allows us to look for the weekday with the highest emojis usage. 
 
 {% highlight R %}
-emojis_matching(usermedia$text, emDict$r.encoding, emDict$description) %>%
+emojis_matching(usermedia$text, matchto, description) %>%
   merge(usermedia %>% select(text, created), by = "text") %>% 
   select(description, created) %>% 
   mutate(weekday = weekdays(created)) %>% 
@@ -354,25 +142,34 @@ emojis_matching(usermedia$text, emDict$r.encoding, emDict$description) %>%
   group_by(weekday) %>% 
   summarise(n = n()) %>% 
   arrange(-n)
+  
 # A tibble: 7 × 2
     weekday     n
       <chr> <int>
-1   Tuesday   118
-2 Wednesday   114
-3    Monday   111
-4  Saturday   111
-5  Thursday   103
-6    Sunday    84
-7    Friday    80
+1    Monday   150
+2    Friday   135
+3   Tuesday   131
+4  Saturday   129
+5    Sunday   127
+6  Thursday   119
+7 Wednesday   107
 {% endhighlight %}
 
-Turns out Paris' lazy days are Friday (busy getting ready for the weekend?) and Sunday (busy recovering from the weekend?).
+Turns out Paris emojis use is more or less constant over the week. 
 One could even look at trends for every single emoji if needed. For instance, defining groups of "happy emojis" and "sad emojis", one could check wether these two groups are distributed differently accross the week. 
- 
-## emojis associated with time of the day (morning, afternoon, evening, night)?
+
+## List of further emojis analysis ideas
+
+Summing up, here are some ideas for further analysis I didn't implement in this article but can be done with emojis: 
+
+- combine traditional text based sentiment analysis with emojis basd sentiment analysis
+- analyse coocccurence of emojis
+- identify topics based on emojis
+- track trends in emojis use
 
 ## Final thoughts
 
-Emoji analysis is unlikely to make a good job at replacing natural language processing in a sentiment analysis context. Emojis can help easily identify positive content, but they're not so good at identifying negative or serious, business related content. It makes sense since most of the emojis have a positive meaning. Also, not everyone makes the same use of emoji and not every positive tweet contains an emoji, so again, I don't think it's a good idea to base your sentiment analysis exclusively on emojis. I'd rather suggest to perform traditional sentiment analysis and enrich it with emoji data. Also, emoji analysis can become quite difficult due to the constantly growing number of emojis. Some of them have more than one unicode codepoint, this can also be a challenge in the analysis. 
+Emoji analysis is unlikely to make a good job at replacing natural language processing in a sentiment analysis context. Emojis can help easily identify positive content, but they're not so good at identifying negative or serious, business related content as far as I can tell. It makes sense since most of the emojis have a positive meaning. Also, not everyone makes the same use of emoji and not every positgroup_by(text) %>%
+    mutate(valid = ifelse(any(description == "sparkles"), TRUE, FALSE)) %>%ive tweet contains an emoji, so again, I don't think it's a good idea to base your sentiment analysis exclusively on emojis. I'd rather suggest to perform traditional sentiment analysis and enrich it with emoji data. Also, emoji analysis can become quite difficult due to the constantly growing number of emojis. Some of them have more than one unicode codepoint, this can be a challenge in the analysis. 
 
 In this article, I only showed how to perform simple positive/negative sentiment analysis and very basic association with words, but one could come up with much more detailed approaches. One could harvest much more information from emojis than just their level of positiveness. I'm thinking activities, different sentiments, patriotism, fondness for children, frequency of travelling, etc. 
