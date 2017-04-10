@@ -12,7 +12,7 @@ kirill:
 jess:
   name: Jessica Peterka-Bonetta
   email: jessica@today-is-a-good-day.de
-  bio: "Data science enthusiast, psychologist, keen on R and diging into Big Data."
+  bio: "Data science enthusiast, psychologist, keen on R and digging into Big Data."
   avatar: jessica.jpg
   twitter: jpeterkabonetta
   github: today-is-a-good-day
@@ -21,7 +21,7 @@ jess:
 yuki:
   name: Yuki Katoh
   email: yukiegosapporo@gmail.com
-  bio: "Japanese data chef in Berlin, making big data tuna into tasty sushi"
+  bio: "Japanese data chef in Berlin, making big data tuna into tasty sushi."
   avatar: yuki.jpg
   twitter: 
   github: yukiegosapporo
