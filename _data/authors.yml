@@ -4,34 +4,26 @@ kirill:
   name: Kirill Pomogajko
   email: kirill@pomogajko.com
   bio: "Breathes R, lives in a shell, avoids spreadsheets."
-  avatar: kirill.jpg
-  twitter: pomogajko
-  github: Quiri
+  avatar: /images/kirill.jpg
   linkedin: kpomogajko
 
 jess:
   name: Jessica Peterka-Bonetta
   email: jessica@today-is-a-good-day.de
   bio: "Data science enthusiast, psychologist, keen on R and digging into Big Data."
-  avatar: jessica.jpg
-  twitter: jpeterkabonetta
-  github: today-is-a-good-day
+  avatar: /images/jessica.jpg
   linkedin: jpeterkabonetta
 
 yuki:
   name: Yuki Katoh
   email: yukiegosapporo@gmail.com
   bio: "Japanese data chef in Berlin, making big data tuna into tasty sushi."
-  avatar: yuki.jpg
-  twitter: 
-  github: yukiegosapporo
+  avatar: /images/yuki.jpg
   linkedin: yukiegosapporo
 
 safferli:
   name: Christoph Safferling
   email: 
-  avatar: safferli.jpg
+  avatar: /images/safferli.jpg
   bio: "Economist, open source afficionado, and game analyst."
-  twitter: safferli
-  github: safferli
   linkedin: safferling

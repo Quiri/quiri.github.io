@@ -1,6 +1,6 @@
 # Site wide configuration
 title: "Opiate for the masses"
-subtitle: "Data is our religion."
+subtitle: "Data is our religion. (Blog Archive)"
 locale: "en_US"
 url: "https://quiri.github.io"
 baseurl: ""
@@ -45,13 +45,7 @@ author:
   avatar: "/images/kirill.jpg"
   bio: "Data is our religion."
   email: "kirill@pomogajko.com"
-  links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter"
-      url: "https://twitter.com/pomogajko"
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/Quiri"
+  links: []
 
 # Defaults
 defaults:
@@ -60,8 +54,9 @@ defaults:
       type: "posts"
     values:
       layout: "single"
-      author_profile: true
+      author_profile: false
       read_time: true
+      show_date: true
       comments: false
       share: true
       related: true
@@ -70,4 +65,4 @@ defaults:
       type: "pages"
     values:
       layout: "single"
-      author_profile: true
+      author_profile: false

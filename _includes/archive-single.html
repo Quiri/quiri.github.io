@@ -1,0 +1,37 @@
+{% if post.header.teaser %}
+  {% capture teaser %}{{ post.header.teaser }}{% endcapture %}
+{% else %}
+  {% assign teaser = site.teaser %}
+{% endif %}
+
+{% if post.id %}
+  {% assign title = post.title | markdownify | strip_html %}
+{% else %}
+  {% assign title = post.title %}
+{% endif %}
+
+<div class="{{ include.type | default: 'list' }}__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    {% if include.type == "grid" and teaser %}
+      <div class="archive__item-teaser">
+        <img src="{{ teaser | relative_url }}" alt="">
+      </div>
+    {% endif %}
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      {% if post.link %}
+        <a href="{{ post.link }}">{{ title }}</a> <a href="{{ post.url | relative_url }}" rel="permalink"><i class="fas fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
+      {% else %}
+        <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
+      {% endif %}
+    </h2>
+    <p class="page__meta" style="color: #898e96; font-size: 0.85em; margin-top: 0.25em; margin-bottom: 0.5em;">
+      {% if post.date %}
+        <i class="far fa-calendar-alt" aria-hidden="true"></i> Published <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
+      {% endif %}
+      {% if post.read_time %}
+        &nbsp;&nbsp;•&nbsp;&nbsp;<i class="far fa-clock" aria-hidden="true"></i> {% include read-time.html %}
+      {% endif %}
+    </p>
+    {% if post.excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 200 }}</p>{% endif %}
+  </article>
+</div>
