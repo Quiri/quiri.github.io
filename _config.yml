@@ -36,10 +36,7 @@ include: [".htaccess"]
 exclude:
   - Makefile
   - "*.Rmd"
-  - Gruntfile.js
-  - package.json
   - node_modules
-  - Gemfile.lock
   - vendor
 
 # Site Author
