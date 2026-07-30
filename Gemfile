@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'jekyll'
+gem 'jekyll', '~> 4.3.3'
+gem 'minimal-mistakes-jekyll'
 gem 'jekyll-sitemap'
-gem 'octopress', '~> 3.0.0.rc.12'
+gem 'jekyll-feed'
+gem 'jekyll-seo-tag'
+gem 'jekyll-include-cache'
 gem 'rouge'
+gem 'webrick'

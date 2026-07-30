@@ -1,14 +1,11 @@
 ---
-layout: page
-title: About the Blog
+layout: single
+title: "About the Blog"
 excerpt: "High on stats."
-modified: 2015-07-26
+permalink: /about/
+author_profile: true
 ---
 
+This blog is all about Data Science. We write tips and tricks from our personal experience.
 
-This blog is all about Data Science. We will write tipps and tricks from our personal experience.
-
-*Extensive about-page under construction.*
-
-
-
+*Extensive about page under construction.*

@@ -1,7 +1,5 @@
 #!/usr/bin/make -f
 .PHONY: publish draft new
-#.SECONDARY:
-
 
 ROOT_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 CACHE_DIR=.
@@ -21,12 +19,15 @@ publish: $(MD_FILES:%=$(POST_DIR)/%)
 draft: $(MD_FILES:%=$(R_DIR)/%)
 
 new: 
-	octopress new post '$(NAME)'
-	mv '$(POST_DIR)'/'$(NEWPOST)'.markdown '$(R_DIR)'/'$(NEWPOST)'.Rmd
-
-$(DOWNLOADS_DIR)/%.foo.gz:
-	@mkdir -p '$(@D)'
-	scp -F $(SSH) '$*':data/serverlogs.foo.txt.gz '$@'
+	@mkdir -p '$(R_DIR)'
+	@echo "---" > '$(R_DIR)/$(NEWPOST).Rmd'
+	@echo "layout: single" >> '$(R_DIR)/$(NEWPOST).Rmd'
+	@echo "title: \"$(NAME)\"" >> '$(R_DIR)/$(NEWPOST).Rmd'
+	@echo "date: $(DATE)" >> '$(R_DIR)/$(NEWPOST).Rmd'
+	@echo "categories: articles" >> '$(R_DIR)/$(NEWPOST).Rmd'
+	@echo "tags: []" >> '$(R_DIR)/$(NEWPOST).Rmd'
+	@echo "---" >> '$(R_DIR)/$(NEWPOST).Rmd'
+	@echo "Created $(R_DIR)/$(NEWPOST).Rmd"
 
 $(R_DIR)/%.md: $(R_DIR)/%.Rmd
 	@mkdir -p '$(@D)'	
@@ -34,4 +35,4 @@ $(R_DIR)/%.md: $(R_DIR)/%.Rmd
 		&& sed -i "s/\](.*\/$(IMAGES)/]({{ site.url }}\/$(IMAGES)/g" '$@'
 
 $(POST_DIR)/%.md: $(R_DIR)/%.md
-	cp '$<' '$@'	
+	cp '$<' '$@'

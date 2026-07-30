@@ -1,10 +1,7 @@
-# Site navigation links
-
-- title: About
-  url: /about/
-
-- title: Articles
-  url: /articles/
-
-- title: Authors
-  url: /authors/
+main:
+  - title: "Articles"
+    url: /articles/
+  - title: "Tags"
+    url: /tags/
+  - title: "About"
+    url: /about/

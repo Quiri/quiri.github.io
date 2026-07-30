@@ -1,23 +1,29 @@
 # Site wide configuration
+title: "Opiate for the masses"
+subtitle: "Data is our religion."
+locale: "en_US"
+url: "https://quiri.github.io"
+baseurl: ""
 
-title: Opiate for the masses
-locale: en_US
-description: Data is our religion. 
-logo: 
+# Theme settings
+theme: "minimal-mistakes-jekyll"
+minimal_mistakes_skin: "dark" # Available skins: "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+
+# Built-in Search
 search: true
-disqus-shortname: opiateforthemasses 
-url: http://quiri.github.io
+search_full_content: true
 
 # Jekyll configuration
-encoding: utf-8
-permalink:   /:categories/:title/
-markdown:    kramdown
+encoding: "utf-8"
+permalink: /:categories/:title/
+markdown: kramdown
 highlighter: rouge
-sass:
-  sass_dir: _sass
-  style: compressed
-gems:
+
+plugins:
   - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-include-cache
 
 kramdown:
   auto_ids: true
@@ -27,28 +33,38 @@ kramdown:
   enable_coderay: false
 
 include: [".htaccess"]
-exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md", "vendor"]
+exclude:
+  - Makefile
+  - "*.Rmd"
+  - Gruntfile.js
+  - package.json
+  - node_modules
+  - Gemfile.lock
+  - vendor
 
+# Site Author
+author:
+  name: "Kirill Pomogajko"
+  avatar: "/images/kirill.jpg"
+  bio: "Data is our religion."
+  email: "kirill@pomogajko.com"
+  links:
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter"
+      url: "https://twitter.com/pomogajko"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/Quiri"
 
-# Site owner
-owner:
-  name: Kirill Pomogajko
-  avatar: kirill.jpg
-  email: kirill@pomogajko.com
-  twitter: pomogajko
-  #facebook: #username
-  github: Quiri
-  #stackexchange: #http://stackoverflow.com/users/123456/username
-  #linkedin: #username
-  #instagram: #username
-  #flickr: #username
-  #tumblr: #username
-  #pinterest: #username
-  #weibo: #userid
-  google:
-  #  plus: #username
-    analytics: UA-66397956-1
-    verify: MmRGCeK6NxYVbxHuKT7FP5H40y1L-DnHXuVMKbRfBwQ
-  #  ad-client:
-  #  ad-slot:
-  #bing-verify:
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "single"
+      author_profile: true
+      read_time: true
+      comments: false
+      share: true
+      related: true
